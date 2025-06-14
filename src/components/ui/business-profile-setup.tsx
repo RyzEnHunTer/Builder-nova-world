@@ -26,6 +26,7 @@ import {
   extractPlaceIdFromUrl,
   openGoogleBusinessProfile,
   generateReviewUrl,
+  fetchBusinessReviews,
 } from "@/lib/googleBusinessProfile";
 
 const BusinessProfileSetup = () => {
