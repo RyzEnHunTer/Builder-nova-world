@@ -21,10 +21,12 @@ import {
   CheckCircle,
   AlertCircle,
   FileImage,
+  Phone,
 } from "lucide-react";
 import { useAdmin } from "@/contexts/AdminContext";
 import { useNavigate } from "react-router-dom";
 import GalleryManager from "@/components/ui/gallery-manager";
+import ContactInfoEditor from "@/components/ui/contact-info-editor";
 import {
   GalleryImage,
   categoryConfigs,
@@ -143,6 +145,7 @@ const AdminDashboard = () => {
     { id: "overview", name: "Overview", icon: BarChart3 },
     { id: "gallery", name: "Gallery Management", icon: Image },
     { id: "upload", name: "Quick Upload", icon: Upload },
+    { id: "contact", name: "Contact Info", icon: Phone },
     { id: "settings", name: "Settings", icon: Settings },
   ];
 
@@ -396,6 +399,12 @@ const AdminDashboard = () => {
                 )}
               </CardContent>
             </Card>
+          </div>
+        )}
+
+        {activeTab === "contact" && (
+          <div>
+            <ContactInfoEditor />
           </div>
         )}
 

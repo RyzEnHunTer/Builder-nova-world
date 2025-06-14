@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AdminProvider, useAdmin } from "@/contexts/AdminContext";
+import { ContactInfoProvider } from "@/contexts/ContactInfoContext";
 import Navigation from "@/components/ui/navigation";
 import Footer from "@/components/ui/footer";
 import Index from "./pages/Index";
@@ -48,76 +49,81 @@ const App = () => (
       <Toaster />
       <Sonner />
       <AdminProvider>
-        <BrowserRouter>
-          <Routes>
-            {/* Public Routes */}
-            <Route
-              path="/"
-              element={
-                <PublicLayout>
-                  <Index />
-                </PublicLayout>
-              }
-            />
-            <Route
-              path="/about"
-              element={
-                <PublicLayout>
-                  <About />
-                </PublicLayout>
-              }
-            />
-            <Route
-              path="/gallery"
-              element={
-                <PublicLayout>
-                  <Gallery />
-                </PublicLayout>
-              }
-            />
-            <Route
-              path="/contact"
-              element={
-                <PublicLayout>
-                  <Contact />
-                </PublicLayout>
-              }
-            />
+        <ContactInfoProvider>
+          <BrowserRouter>
+            <Routes>
+              {/* Public Routes */}
+              <Route
+                path="/"
+                element={
+                  <PublicLayout>
+                    <Index />
+                  </PublicLayout>
+                }
+              />
+              <Route
+                path="/about"
+                element={
+                  <PublicLayout>
+                    <About />
+                  </PublicLayout>
+                }
+              />
+              <Route
+                path="/gallery"
+                element={
+                  <PublicLayout>
+                    <Gallery />
+                  </PublicLayout>
+                }
+              />
+              <Route
+                path="/contact"
+                element={
+                  <PublicLayout>
+                    <Contact />
+                  </PublicLayout>
+                }
+              />
 
-            {/* Admin Routes */}
-            <Route
-              path="/admin/login"
-              element={
-                <AdminLayout>
-                  <AdminLogin />
-                </AdminLayout>
-              }
-            />
-            <Route
-              path="/admin"
-              element={
-                <AdminLayout>
-                  <ProtectedRoute>
-                    <AdminDashboard />
-                  </ProtectedRoute>
-                </AdminLayout>
-              }
-            />
+              {/* Admin Routes */}
+              <Route
+                path="/admin/login"
+                element={
+                  <AdminLayout>
+                    <AdminLogin />
+                  </AdminLayout>
+                }
+              />
+              <Route
+                path="/admin"
+                element={
+                  <AdminLayout>
+                    <ProtectedRoute>
+                      <AdminDashboard />
+                    </ProtectedRoute>
+                  </AdminLayout>
+                }
+              />
 
-            {/* Redirect /admin/* to /admin */}
-            <Route path="/admin/*" element={<Navigate to="/admin" replace />} />
+              {/* Redirect /admin/* to /admin */}
+              <Route
+                path="/admin/*"
+                element={<Navigate to="/admin" replace />}
+              />
 
-            {/* 404 Route */}
-            <Route
-              path="*"
-              element={
-                <PublicLayout>
-                  <NotFound />
-                </PublicLayout>
-              }
-            />
-          </Routes>
-        </BrowserRouter>
+              {/* 404 Route */}
+              <Route
+                path="*"
+                element={
+                  <PublicLayout>
+                    <NotFound />
+                  </PublicLayout>
+                }
+              />
+            </Routes>
+          </BrowserRouter>
+        </ContactInfoProvider>
       </AdminProvider>
     </TooltipProvider>
   </QueryClientProvider>
