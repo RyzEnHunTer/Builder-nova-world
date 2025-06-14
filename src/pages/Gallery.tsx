@@ -38,102 +38,184 @@ const Gallery = () => {
     // Hair Styling Images
     {
       id: 1,
-      url: "/images/hair-styling/hair-cut-1.jpg", // Replace with your image filename
-      alt: "Hair styling transformation",
+      url: "/images/hair-styling/long-layers-cut.jpg",
+      alt: "Long layered haircut transformation",
       category: "Hair Styling",
-      title: "Elegant Hair Transformation",
-      description: "Beautiful layered cut with highlights",
+      title: "Long Layered Cut",
+      description: "Beautiful long layers with face-framing highlights",
     },
     {
       id: 2,
-      url: "/images/hair-styling/hair-color-1.jpg", // Replace with your image filename
-      alt: "Hair coloring service",
+      url: "/images/hair-styling/bob-cut-styling.jpg",
+      alt: "Modern bob haircut",
       category: "Hair Styling",
-      title: "Color Transformation",
-      description: "Professional hair coloring service",
+      title: "Modern Bob Cut",
+      description: "Chic and stylish bob with subtle layers",
+    },
+    {
+      id: 3,
+      url: "/images/hair-styling/hair-coloring-blonde.jpg",
+      alt: "Blonde hair coloring service",
+      category: "Hair Styling",
+      title: "Blonde Hair Transformation",
+      description: "Professional blonde coloring with highlights",
+    },
+    {
+      id: 4,
+      url: "/images/hair-styling/curly-hair-styling.jpg",
+      alt: "Curly hair styling and treatment",
+      category: "Hair Styling",
+      title: "Curly Hair Styling",
+      description: "Expert curly hair care and styling",
+    },
+    {
+      id: 5,
+      url: "/images/hair-styling/hair-updo-elegant.jpg",
+      alt: "Elegant hair updo style",
+      category: "Hair Styling",
+      title: "Elegant Updo",
+      description: "Sophisticated updo for special occasions",
     },
 
     // Makeup Images
     {
-      id: 3,
-      url: "/images/makeup/makeup-1.jpg", // Replace with your image filename
-      alt: "Professional makeup",
+      id: 6,
+      url: "/images/makeup/evening-makeup.jpg",
+      alt: "Evening glamour makeup",
       category: "Makeup",
-      title: "Glamour Makeup",
-      description: "Evening look with dramatic eyes",
+      title: "Evening Glamour",
+      description: "Dramatic evening makeup with smokey eyes",
     },
     {
-      id: 4,
-      url: "/images/makeup/makeup-2.jpg", // Replace with your image filename
-      alt: "Party makeup",
+      id: 7,
+      url: "/images/makeup/natural-day-makeup.jpg",
+      alt: "Natural day makeup look",
       category: "Makeup",
-      title: "Party Perfect",
-      description: "Stunning party makeup look",
+      title: "Natural Day Look",
+      description: "Fresh and natural everyday makeup",
+    },
+    {
+      id: 8,
+      url: "/images/makeup/party-makeup-bold.jpg",
+      alt: "Bold party makeup",
+      category: "Makeup",
+      title: "Bold Party Look",
+      description: "Statement makeup for parties and events",
+    },
+    {
+      id: 9,
+      url: "/images/makeup/professional-makeup.jpg",
+      alt: "Professional business makeup",
+      category: "Makeup",
+      title: "Professional Look",
+      description: "Polished makeup for business and work",
     },
 
     // Bridal Images
     {
-      id: 5,
-      url: "/images/bridal/bridal-1.jpg", // Replace with your image filename
-      alt: "Bridal makeup",
+      id: 10,
+      url: "/images/bridal/traditional-bridal.jpg",
+      alt: "Traditional bridal makeup and hair",
       category: "Bridal",
-      title: "Bridal Perfection",
-      description: "Complete bridal makeover package",
+      title: "Traditional Bridal",
+      description: "Classic bridal look with traditional elements",
     },
     {
-      id: 6,
-      url: "/images/bridal/bridal-2.jpg", // Replace with your image filename
-      alt: "Wedding makeup",
+      id: 11,
+      url: "/images/bridal/modern-bridal.jpg",
+      alt: "Modern bridal makeup style",
       category: "Bridal",
-      title: "Wedding Day Glow",
-      description: "Natural bridal makeup with soft curls",
+      title: "Modern Bridal",
+      description: "Contemporary bridal makeup with clean lines",
+    },
+    {
+      id: 12,
+      url: "/images/bridal/engagement-makeup.jpg",
+      alt: "Engagement ceremony makeup",
+      category: "Bridal",
+      title: "Engagement Look",
+      description: "Beautiful makeup for engagement ceremonies",
+    },
+    {
+      id: 13,
+      url: "/images/bridal/pre-wedding-shoot.jpg",
+      alt: "Pre-wedding photoshoot makeup",
+      category: "Bridal",
+      title: "Pre-Wedding Shoot",
+      description: "Camera-ready makeup for pre-wedding photos",
     },
 
     // Facial Treatment Images
     {
-      id: 7,
-      url: "/images/facial/facial-1.jpg", // Replace with your image filename
-      alt: "Facial treatment",
+      id: 14,
+      url: "/images/facial/deep-cleansing-facial.jpg",
+      alt: "Deep cleansing facial treatment",
       category: "Facial Treatments",
-      title: "Rejuvenating Facial",
-      description: "Deep cleansing and hydrating treatment",
+      title: "Deep Cleansing Facial",
+      description: "Thorough deep cleansing and pore treatment",
     },
     {
-      id: 8,
-      url: "/images/facial/facial-2.jpg", // Replace with your image filename
-      alt: "Skincare treatment",
+      id: 15,
+      url: "/images/facial/anti-aging-facial.jpg",
+      alt: "Anti-aging facial treatment",
       category: "Facial Treatments",
-      title: "Glowing Skin Treatment",
-      description: "Advanced skincare therapy",
+      title: "Anti-Aging Treatment",
+      description: "Advanced anti-aging facial therapy",
+    },
+    {
+      id: 16,
+      url: "/images/facial/hydrating-facial.jpg",
+      alt: "Hydrating facial treatment",
+      category: "Facial Treatments",
+      title: "Hydrating Facial",
+      description: "Intensive moisture and hydration therapy",
+    },
+    {
+      id: 17,
+      url: "/images/facial/acne-treatment.jpg",
+      alt: "Acne treatment facial",
+      category: "Facial Treatments",
+      title: "Acne Treatment",
+      description: "Specialized treatment for acne-prone skin",
     },
 
     // Spa Treatment Images
     {
-      id: 9,
-      url: "/images/spa/spa-1.jpg", // Replace with your image filename
-      alt: "Spa treatment",
+      id: 18,
+      url: "/images/spa/relaxing-massage.jpg",
+      alt: "Relaxing spa massage",
       category: "Spa Treatments",
-      title: "Relaxing Spa Session",
-      description: "Peaceful facial and massage treatment",
+      title: "Relaxing Massage",
+      description: "Full body relaxation and stress relief",
     },
     {
-      id: 10,
-      url: "/images/spa/spa-2.jpg", // Replace with your image filename
-      alt: "Massage therapy",
+      id: 19,
+      url: "/images/spa/aromatherapy-session.jpg",
+      alt: "Aromatherapy spa session",
       category: "Spa Treatments",
-      title: "Therapeutic Massage",
-      description: "Stress relief and relaxation",
+      title: "Aromatherapy Session",
+      description: "Therapeutic aromatherapy treatment",
+    },
+    {
+      id: 20,
+      url: "/images/spa/head-massage.jpg",
+      alt: "Head and scalp massage",
+      category: "Spa Treatments",
+      title: "Head Massage",
+      description: "Relaxing head and scalp massage therapy",
     },
 
-    // Add more of your custom images here...
-    // Template for adding new images:
+    // TEMPLATE FOR ADDING YOUR IMAGES:
+    // Replace the URLs above with your actual image filenames
+    // Add new images following this format:
+
     // {
-    //   id: 11, // Next available ID
-    //   url: "/images/category/your-image-name.jpg",
-    //   alt: "Description for accessibility",
-    //   category: "Hair Styling", // Must match existing categories
-    //   title: "Your Image Title",
-    //   description: "Brief description of the service shown",
+    //   id: 21, // Next available ID
+    //   url: "/images/hair-styling/your-photo-name.jpg", // Your actual image path
+    //   alt: "Descriptive text for screen readers",
+    //   category: "Hair Styling", // Choose: "Hair Styling", "Makeup", "Bridal", "Facial Treatments", "Spa Treatments"
+    //   title: "Display Title for Your Photo",
+    //   description: "Brief description of the service or transformation shown",
     // },
   ];
 
