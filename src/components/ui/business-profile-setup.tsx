@@ -97,12 +97,42 @@ const BusinessProfileSetup = () => {
     }
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     saveBusinessConfig(config);
-    setSuccessMessage(
-      "Business profile connected successfully! Your reviews will now sync automatically.",
-    );
-    setTimeout(() => setSuccessMessage(""), 3000);
+
+    // Test the connection and update sync status
+    if (config.businessUrl && validateBusinessUrl(config.businessUrl)) {
+      try {
+        const reviews = await fetchBusinessReviews();
+        const isRealReviews =
+          reviews.length > 0 && !reviews[0].id.startsWith("sample_");
+
+        setSyncStatus({
+          isConnected: true,
+          reviewCount: reviews.length,
+          lastSync: new Date().toISOString(),
+          isReal: isRealReviews,
+        });
+
+        if (isRealReviews) {
+          setSuccessMessage(
+            `✅ Google Business Profile connected! Synced ${reviews.length} real reviews.`,
+          );
+        } else {
+          setSuccessMessage(
+            "⚠️ Profile connected but using sample reviews. Real reviews will sync shortly.",
+          );
+        }
+      } catch (error) {
+        setSuccessMessage(
+          "⚠️ Profile saved but sync test failed. Check your URL and try again.",
+        );
+      }
+    } else {
+      setSuccessMessage("Business profile configuration saved.");
+    }
+
+    setTimeout(() => setSuccessMessage(""), 5000);
   };
 
   const handleFindBusiness = () => {
