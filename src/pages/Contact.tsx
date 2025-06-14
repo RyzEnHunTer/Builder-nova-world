@@ -277,11 +277,6 @@ const Contact = () => {
                     <Button
                       className="w-full justify-start bg-green-500 hover:bg-green-600 text-white"
                       onClick={() => bookAppointment(businessInfo.phone, WhatsAppMessages.CONTACT_INQUIRY)}
-                        bookAppointment(
-                          contactInfo.phone,
-                          WhatsAppMessages.CONTACT_INQUIRY,
-                        )
-                      }
                     >
                       <MessageCircle className="h-5 w-5 mr-3" />
                       WhatsApp: {businessInfo.phone}
