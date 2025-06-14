@@ -1,5 +1,5 @@
-// Google Business Profile Direct Integration
-// Connects directly to your Google Business Profile without API keys
+// Google Business Profile Complete Sync Integration
+// Connects directly to your Google Business Profile and syncs all business data
 
 import { useState, useEffect } from "react";
 
@@ -15,13 +15,55 @@ export interface BusinessReview {
   reviewUrl: string;
 }
 
+export interface BusinessHours {
+  monday: { open: string; close: string; closed: boolean };
+  tuesday: { open: string; close: string; closed: boolean };
+  wednesday: { open: string; close: string; closed: boolean };
+  thursday: { open: string; close: string; closed: boolean };
+  friday: { open: string; close: string; closed: boolean };
+  saturday: { open: string; close: string; closed: boolean };
+  sunday: { open: string; close: string; closed: boolean };
+}
+
+export interface BusinessLocation {
+  street: string;
+  city: string;
+  state: string;
+  country: string;
+  zipCode: string;
+  fullAddress: string;
+  coordinates?: {
+    lat: number;
+    lng: number;
+  };
+}
+
+export interface BusinessContact {
+  phone: string;
+  email?: string;
+  website?: string;
+  whatsapp?: string;
+}
+
 export interface BusinessProfileInfo {
   businessName: string;
+  description?: string;
   averageRating: number;
   totalReviews: number;
   businessUrl: string;
   profileImage?: string;
+  coverImage?: string;
   isVerified: boolean;
+  businessHours: BusinessHours;
+  location: BusinessLocation;
+  contact: BusinessContact;
+  categories: string[];
+  attributes: string[];
+  photos: string[];
+  lastSyncTime: string;
+  isOpen?: boolean;
+  nextOpenTime?: string;
+  priceLevel?: number;
 }
 
 // Configuration for Google Business Profile
@@ -29,6 +71,9 @@ export interface BusinessConfig {
   businessName: string;
   businessUrl: string; // Your Google Business Profile URL
   placeId?: string; // Optional: Your Place ID for enhanced features
+  autoSync: boolean; // Enable automatic syncing
+  syncInterval: number; // Sync interval in hours (default: 24)
+  lastSync?: string; // Last sync timestamp
 }
 
 // Get default business configuration
