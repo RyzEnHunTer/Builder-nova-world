@@ -10,8 +10,10 @@ import {
 } from "lucide-react";
 import { Button } from "./button";
 import { Link } from "react-router-dom";
+import { useContactInfo } from "@/contexts/ContactInfoContext";
 
 const Footer = () => {
+  const { contactInfo } = useContactInfo();
   return (
     <footer className="bg-gradient-to-br from-rose-50 to-pink-50 border-t">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
@@ -24,10 +26,10 @@ const Footer = () => {
               </div>
               <div className="flex flex-col">
                 <span className="text-lg font-bold text-rose-800">
-                  Dream World
+                  {contactInfo.businessName.split(' ').slice(0, 2).join(' ')}
                 </span>
                 <span className="text-xs text-rose-600 -mt-1">
-                  Beauty Parlour
+                  {contactInfo.businessName.split(' ').slice(2).join(' ')}
                 </span>
               </div>
             </Link>
@@ -108,11 +110,9 @@ const Footer = () => {
               Services
             </h3>
             <ul className="space-y-3">
-              <li className="text-sm text-gray-600">Hair Styling & Cuts</li>
-              <li className="text-sm text-gray-600">Facial Treatments</li>
-              <li className="text-sm text-gray-600">Makeup & Beauty</li>
-              <li className="text-sm text-gray-600">Bridal Packages</li>
-              <li className="text-sm text-gray-600">Spa Treatments</li>
+              {contactInfo.services.slice(0, 5).map((service, index) => (
+                <li key={index} className="text-sm text-gray-600">{service}</li>
+              ))}
             </ul>
           </div>
 
@@ -125,21 +125,21 @@ const Footer = () => {
               <div className="flex items-start space-x-3">
                 <MapPin className="h-4 w-4 text-rose-600 mt-0.5 flex-shrink-0" />
                 <span className="text-sm text-gray-600">
-                  Ramjanki mandir gali, Main Town
+                  {contactInfo.address.street}
                   <br />
-                  Ghocho Toli, Simdega, Jharkhand 835223
+                  {contactInfo.address.city}, {contactInfo.address.state} {contactInfo.address.zipCode}
                 </span>
               </div>
               <div className="flex items-center space-x-3">
                 <Phone className="h-4 w-4 text-rose-600 flex-shrink-0" />
-                <span className="text-sm text-gray-600">+1 (555) 123-4567</span>
+                <span className="text-sm text-gray-600">{contactInfo.phone}</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Mail className="h-4 w-4 text-rose-600 flex-shrink-0" />
                 <span className="text-sm text-gray-600">
                   <p>
-                    <span style={{ fontSize: "14px" }}>
-                      dreamworldparlourmail@gmail.com
+                    <span style={{ fontSize: '14px' }}>
+                      {contactInfo.email}
                     </span>
                   </p>
                 </span>
@@ -147,11 +147,10 @@ const Footer = () => {
               <div className="flex items-start space-x-3">
                 <Clock className="h-4 w-4 text-rose-600 mt-0.5 flex-shrink-0" />
                 <div className="text-sm text-gray-600">
-                  <div>Mon - Sat: 9:00 AM - 8:00 PM</div>
-                  <div>Sunday: 10:00 AM - 6:00 PM</div>
+                  <div>Mon - Sat: {contactInfo.hours.monday.open} - {contactInfo.hours.monday.close}</div>
+                  <div>Sunday: {contactInfo.hours.sunday.open} - {contactInfo.hours.sunday.close}</div>
                 </div>
               </div>
-            </div>
           </div>
         </div>
 
