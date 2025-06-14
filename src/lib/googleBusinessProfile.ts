@@ -543,84 +543,77 @@ const parseGoogleReviewsFromHTML = (html: string): BusinessReview[] => {
   return reviews;
 };
 
+// Import the real Google Reviews API
+import {
+  fetchRealGoogleReviews as fetchGoogleReviewsAPI,
+  convertGoogleDataToBusinessReviews,
+} from "./googleReviewsAPI";
+
 // Fetch real reviews using Google Business Profile data
 const fetchRealGoogleReviews = async (
   businessUrl: string,
 ): Promise<BusinessReview[]> => {
   try {
-    // Method 1: Try to extract Place ID and use Google Places API approach
+    console.log("🔍 Fetching real reviews from Google Business Profile...");
+
+    // Extract Place ID from the business URL
     const placeId = extractPlaceIdFromUrl(businessUrl);
 
-    if (placeId) {
-      // For demo purposes, we'll simulate this with realistic review data
-      // In production, this would connect to real Google APIs or use a review service
+    // Use the Google Reviews API to fetch real reviews
+    const googleData = await fetchGoogleReviewsAPI(businessUrl, placeId);
 
-      const realReviews: BusinessReview[] = [
-        {
-          id: "google_review_1",
-          reviewerName: "Priya Singh",
-          reviewerInitial: "P",
-          rating: 5,
-          text: "Excellent service! The staff at Dream World Beauty Parlour is very professional and friendly. I got my bridal makeup done here and it was absolutely perfect. Highly recommended!",
-          date: "2024-01-25",
-          relativeTime: "1 week ago",
-          isVerified: true,
-          reviewUrl: businessUrl,
-        },
-        {
-          id: "google_review_2",
-          reviewerName: "Anjali Kumari",
-          reviewerInitial: "A",
-          rating: 5,
-          text: "Amazing hair styling and facial treatment. The ambiance is very good and hygienic. Value for money service. Will definitely visit again.",
-          date: "2024-01-20",
-          relativeTime: "2 weeks ago",
-          isVerified: true,
-          reviewUrl: businessUrl,
-        },
-        {
-          id: "google_review_3",
-          reviewerName: "Meera Devi",
-          reviewerInitial: "M",
-          rating: 4,
-          text: "Good experience overall. The makeup artist was skilled and the final result was great. Only issue was a bit of waiting time.",
-          date: "2024-01-15",
-          relativeTime: "3 weeks ago",
-          isVerified: true,
-          reviewUrl: businessUrl,
-        },
-        {
-          id: "google_review_4",
-          reviewerName: "Sunita Raj",
-          reviewerInitial: "S",
-          rating: 5,
-          text: "Perfect place for beauty treatments. Very clean environment and professional staff. Got hair cutting and styling done - very satisfied with the results.",
-          date: "2024-01-10",
-          relativeTime: "1 month ago",
-          isVerified: true,
-          reviewUrl: businessUrl,
-        },
-        {
-          id: "google_review_5",
-          reviewerName: "Kavita Sharma",
-          reviewerInitial: "K",
-          rating: 5,
-          text: "Best beauty parlour in the area! Excellent facial and hair spa services. The team is very experienced and caring. Reasonable prices too.",
-          date: "2024-01-05",
-          relativeTime: "1 month ago",
-          isVerified: true,
-          reviewUrl: businessUrl,
-        },
-      ];
+    if (googleData && googleData.reviews.length > 0) {
+      console.log(
+        `✅ Successfully fetched ${googleData.reviews.length} real Google reviews`,
+      );
 
-      return realReviews;
+      // Convert Google API format to our BusinessReview format
+      const businessReviews = convertGoogleDataToBusinessReviews(googleData);
+
+      // Cache the reviews
+      localStorage.setItem(
+        "cached-google-reviews",
+        JSON.stringify({
+          reviews: businessReviews,
+          timestamp: Date.now(),
+          businessUrl: businessUrl,
+        }),
+      );
+
+      return businessReviews;
+    } else {
+      console.log("⚠️ No real reviews found via API");
+      return [];
     }
-
-    return [];
   } catch (error) {
-    console.error("Error fetching real Google reviews:", error);
+    console.error("❌ Error fetching real Google reviews:", error);
     return [];
   }
+};
+
+// Get cached reviews if available and not expired
+const getCachedGoogleReviews = (
+  businessUrl: string,
+): BusinessReview[] | null => {
+  try {
+    const cached = localStorage.getItem("cached-google-reviews");
+    if (cached) {
+      const { reviews, timestamp, businessUrl: cachedUrl } = JSON.parse(cached);
+
+      // Check if cache is for same business URL and not expired (1 hour)
+      const isExpired = Date.now() - timestamp > 60 * 60 * 1000;
+      const isSameBusiness = cachedUrl === businessUrl;
+
+      if (isSameBusiness && !isExpired) {
+        console.log("📋 Using cached Google reviews");
+        return reviews;
+      }
+    }
+  } catch (error) {
+    console.error("Error loading cached reviews:", error);
+  }
+
+  return null;
 };
 
 // Fetch reviews from Google Business Profile
