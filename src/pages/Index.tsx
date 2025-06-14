@@ -176,53 +176,50 @@ const Index = () => {
       {/* Why Choose Us Section */}
       <section className="py-20 bg-gradient-to-br from-rose-50 to-pink-50">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="space-y-6">
+              <div className="flex items-center gap-2 text-rose-700">
+                <MapPin className="h-5 w-5" />
+                <span className="font-medium">Visit Our Parlour</span>
+              </div>
+              <div className="text-gray-600">
+                <p>{contactInfo.address.street}</p>
+                <p>
+                  {contactInfo.address.city}, {contactInfo.address.state}{" "}
+                  {contactInfo.address.zipCode}
+                </p>
+              </div>
+
+              <div className="flex items-center gap-2 text-rose-700">
+                <Phone className="h-5 w-5" />
+                <span className="font-medium">Call Us</span>
+              </div>
+              <div>
+                <a
+                  href={`tel:${contactInfo.phone}`}
+                  className="text-gray-600 hover:text-rose-600 transition-colors"
+                >
+                  {contactInfo.phone}
+                </a>
+              </div>
+
+              <div className="flex items-center gap-2 text-rose-700">
+                <Mail className="h-5 w-5" />
+                <span className="font-medium">Email Us</span>
+              </div>
+              <div>
+                <a
+                  href={`mailto:${contactInfo.email}`}
+                  className="text-gray-600 hover:text-rose-600 transition-colors"
+                >
+                  {contactInfo.email}
+                </a>
+              </div>
+            </div>
+
             <div>
-              <Badge className="bg-rose-100 text-rose-600 px-4 py-2 mb-6">
-                Why Choose Us
-              </Badge>
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-                Your Trusted Beauty Partner
-              </h2>
-              <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-                With years of experience and a passion for beauty, we provide
-                exceptional services that exceed your expectations every time.
-              </p>
-
-              <div className="space-y-4">
-                {whyChooseUs.map((item, index) => (
-                  <div key={index} className="flex items-center space-x-3">
-                    <CheckCircle className="h-6 w-6 text-rose-500 flex-shrink-0" />
-                    <span className="text-gray-700 text-lg">{item}</span>
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-8">
-                <Link to="/about">
-                  <Button className="bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 text-white px-8 py-3">
-                    Learn More About Us
-                  </Button>
-                </Link>
-              </div>
+              <BusinessHoursDisplay variant="compact" className="h-fit" />
             </div>
-
-            <div className="relative">
-              <div className="aspect-square rounded-2xl bg-gradient-to-br from-rose-200 to-pink-200 p-8">
-                <div className="h-full w-full rounded-xl bg-white/80 backdrop-blur-sm flex items-center justify-center">
-                  <div className="text-center">
-                    <Sparkles className="h-24 w-24 text-rose-500 mx-auto mb-4" />
-                    <h3 className="text-2xl font-bold text-gray-900 mb-2">
-                      Premium Experience
-                    </h3>
-                    <p className="text-gray-600">
-                      Luxurious treatments in a serene environment
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 
