@@ -50,18 +50,40 @@ const BusinessProfileSetup = () => {
     isReal: false,
   });
 
-  // Load saved configuration
+  // Load saved configuration and check sync status
   useEffect(() => {
-    const savedConfig = localStorage.getItem("business-profile-config");
-    if (savedConfig) {
-      try {
-        const parsed = JSON.parse(savedConfig);
-        setConfig(parsed);
-        setIsValidUrl(validateBusinessUrl(parsed.businessUrl));
-      } catch (error) {
-        console.error("Error loading saved config:", error);
+    const loadConfigAndStatus = async () => {
+      const savedConfig = localStorage.getItem("business-profile-config");
+      if (savedConfig) {
+        try {
+          const parsed = JSON.parse(savedConfig);
+          setConfig(parsed);
+          setIsValidUrl(validateBusinessUrl(parsed.businessUrl));
+
+          // Check current sync status
+          if (parsed.businessUrl && validateBusinessUrl(parsed.businessUrl)) {
+            try {
+              const reviews = await fetchBusinessReviews();
+              const isRealReviews =
+                reviews.length > 0 && !reviews[0].id.startsWith("sample_");
+
+              setSyncStatus({
+                isConnected: true,
+                reviewCount: reviews.length,
+                lastSync: parsed.lastSync || null,
+                isReal: isRealReviews,
+              });
+            } catch (error) {
+              console.error("Error checking sync status:", error);
+            }
+          }
+        } catch (error) {
+          console.error("Error loading saved config:", error);
+        }
       }
-    }
+    };
+
+    loadConfigAndStatus();
   }, []);
 
   const handleUrlChange = (url: string) => {
