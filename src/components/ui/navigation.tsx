@@ -58,6 +58,15 @@ const Navigation = () => {
             <Button className="bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700">
               Book Appointment
             </Button>
+            <Link to="/admin/login">
+              <Button
+                variant="outline"
+                size="sm"
+                className="ml-2 border-gray-300 text-gray-600 hover:bg-gray-50"
+              >
+                Admin
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -91,6 +100,14 @@ const Navigation = () => {
                   >
                     Book Appointment
                   </Button>
+                  <Link to="/admin/login" onClick={() => setIsOpen(false)}>
+                    <Button
+                      variant="outline"
+                      className="mt-2 w-full border-gray-300 text-gray-600 hover:bg-gray-50"
+                    >
+                      Admin Portal
+                    </Button>
+                  </Link>
                 </div>
               </SheetContent>
             </Sheet>
