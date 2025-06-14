@@ -78,64 +78,117 @@ const GoogleReviews = ({
 
   return (
     <div className="space-y-6">
+      {/* Sync Status Alert */}
+      {isUsingSampleReviews && (
+        <Alert className="border-yellow-200 bg-yellow-50">
+          <AlertCircle className="h-4 w-4 text-yellow-600" />
+          <AlertDescription className="text-yellow-800">
+            <strong>Sample Reviews:</strong> These are demonstration reviews.
+            <a href="/admin" className="underline hover:text-yellow-900 ml-1">
+              Connect your Google Business Profile
+            </a>{" "}
+            in the admin panel to show real customer reviews.
+          </AlertDescription>
+        </Alert>
+      )}
+
+      {!isUsingSampleReviews && reviews.length > 0 && (
+        <Alert className="border-green-200 bg-green-50">
+          <CheckCircle className="h-4 w-4 text-green-600" />
+          <AlertDescription className="text-green-800">
+            <strong>Live Reviews:</strong> Showing real customer reviews from
+            your Google Business Profile.
+          </AlertDescription>
+        </Alert>
+      )}
+
       {/* Business Info Header */}
       {showBusinessInfo && businessInfo && (
-        <Card className="border-0 shadow-lg bg-gradient-to-r from-rose-50 to-pink-50">
+        <Card className="border-blue-200 bg-blue-50">
           <CardContent className="p-6">
             <div className="flex items-start justify-between">
-              <div className="flex-1">
-                <div className="flex items-center gap-3 mb-3">
-                  <h3 className="text-xl font-bold text-gray-900">
-                    {businessInfo.name}
-                  </h3>
-                  <Badge className="bg-green-500 text-white">
-                    <CheckCircle className="h-3 w-3 mr-1" />
-                    Google Verified
-                  </Badge>
+              <div className="space-y-3 flex-1">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-blue-600 rounded-lg">
+                    <Star className="h-6 w-6 text-white fill-current" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-blue-900">
+                      {businessInfo.businessName}
+                    </h3>
+                    <div className="flex items-center gap-2 text-blue-700">
+                      <div className="flex items-center">
+                        {[...Array(5)].map((_, i) => (
+                          <Star
+                            key={i}
+                            className={`h-4 w-4 ${
+                              i < Math.floor(businessInfo.averageRating)
+                                ? "text-yellow-400 fill-current"
+                                : "text-gray-300"
+                            }`}
+                          />
+                        ))}
+                      </div>
+                      <span className="font-semibold">
+                        {businessInfo.averageRating.toFixed(1)}
+                      </span>
+                      <span className="text-sm">
+                        ({businessInfo.totalReviews} reviews)
+                      </span>
+                      {businessInfo.isVerified && (
+                        <Badge
+                          variant="secondary"
+                          className="bg-green-100 text-green-800"
+                        >
+                          <Shield className="h-3 w-3 mr-1" />
+                          Verified
+                        </Badge>
+                      )}
+                    </div>
+                  </div>
                 </div>
 
-                <div className="flex items-center gap-4 mb-3">
-                  <div className="flex items-center gap-1">
-                    {Array.from({ length: 5 }, (_, index) => (
-                      <Star
-                        key={index}
-                        className={`h-5 w-5 ${
-                          index < Math.floor(businessInfo.averageRating)
-                            ? "text-yellow-400 fill-current"
-                            : "text-gray-300"
-                        }`}
-                      />
-                    ))}
-                    <span className="text-lg font-semibold text-gray-900 ml-2">
-                      {businessInfo.averageRating.toFixed(1)}
-                    </span>
-                  </div>
-
-                  <div className="flex items-center gap-1 text-gray-600">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                  <div className="flex items-center gap-2 text-blue-700">
                     <Users className="h-4 w-4" />
-                    <span className="text-sm">
-                      {businessInfo.totalReviews} reviews
-                    </span>
+                    <span>{businessInfo.totalReviews} Total Reviews</span>
                   </div>
-                </div>
-
-                <div className="flex items-center gap-2 text-sm text-gray-600">
-                  <MapPin className="h-4 w-4" />
-                  <span>{businessInfo.address}</span>
+                  <div className="flex items-center gap-2 text-blue-700">
+                    <MapPin className="h-4 w-4" />
+                    <span>Premium Beauty Services</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-blue-700">
+                    <Clock className="h-4 w-4" />
+                    <span>Professional Team</span>
+                  </div>
                 </div>
               </div>
 
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() =>
-                  openGoogleBusinessProfile(businessInfo.businessUrl)
-                }
-                className="border-blue-300 text-blue-600 hover:bg-blue-50"
-              >
-                <ExternalLink className="h-4 w-4 mr-2" />
-                View on Google
-              </Button>
+              <div className="flex gap-2">
+                <Button
+                  onClick={() =>
+                    openGoogleBusinessProfile(businessInfo.businessUrl)
+                  }
+                  className="bg-blue-600 hover:bg-blue-700 text-white"
+                  size="sm"
+                >
+                  <ExternalLink className="h-4 w-4 mr-2" />
+                  View Profile
+                </Button>
+                <Button
+                  onClick={() =>
+                    window.open(
+                      generateReviewUrl(businessInfo.businessUrl),
+                      "_blank",
+                    )
+                  }
+                  variant="outline"
+                  className="border-blue-300 text-blue-600 hover:bg-blue-50"
+                  size="sm"
+                >
+                  Write Review
+                </Button>
+              </div>
             </div>
           </CardContent>
         </Card>
