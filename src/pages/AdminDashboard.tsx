@@ -22,11 +22,13 @@ import {
   AlertCircle,
   FileImage,
   Phone,
+  Star,
 } from "lucide-react";
 import { useAdmin } from "@/contexts/AdminContext";
 import { useNavigate } from "react-router-dom";
 import GalleryManager from "@/components/ui/gallery-manager";
 import ContactInfoEditor from "@/components/ui/contact-info-editor";
+import GoogleReviewsManager from "@/components/ui/google-reviews-manager";
 import {
   GalleryImage,
   categoryConfigs,
@@ -146,6 +148,7 @@ const AdminDashboard = () => {
     { id: "gallery", name: "Gallery Management", icon: Image },
     { id: "upload", name: "Quick Upload", icon: Upload },
     { id: "contact", name: "Contact Info", icon: Phone },
+    { id: "reviews", name: "Google Reviews", icon: Star },
     { id: "settings", name: "Settings", icon: Settings },
   ];
 
@@ -405,6 +408,12 @@ const AdminDashboard = () => {
         {activeTab === "contact" && (
           <div>
             <ContactInfoEditor />
+          </div>
+        )}
+
+        {activeTab === "reviews" && (
+          <div>
+            <GoogleReviewsManager />
           </div>
         )}
 

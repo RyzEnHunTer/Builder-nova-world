@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import GoogleReviews from "@/components/ui/google-reviews";
 import {
   Sparkles,
   Star,
@@ -57,30 +58,6 @@ const Index = () => {
       title: "Special Packages",
       description:
         "Customized beauty packages for birthdays, anniversaries, and celebrations.",
-    },
-  ];
-
-  const testimonials = [
-    {
-      name: "Sarah Johnson",
-      rating: 5,
-      comment:
-        "Amazing service! The staff is so professional and my hair looks incredible. Highly recommend!",
-      service: "Hair Styling",
-    },
-    {
-      name: "Emily Davis",
-      rating: 5,
-      comment:
-        "Best facial I've ever had! My skin is glowing and I feel so refreshed. Will definitely be back!",
-      service: "Facial Treatment",
-    },
-    {
-      name: "Jessica Miller",
-      rating: 5,
-      comment:
-        "Perfect bridal package! They made me feel like a princess on my wedding day. Thank you so much!",
-      service: "Bridal Package",
     },
   ];
 
@@ -248,52 +225,23 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Testimonials Section */}
+      {/* Google Reviews Section */}
       <section className="py-20 bg-white">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <Badge className="bg-rose-100 text-rose-600 px-4 py-2 mb-6">
-              Testimonials
+              Google Reviews
             </Badge>
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               What Our Clients Say
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Don't just take our word for it. Here's what our amazing clients
-              have to say about their experience.
+              Real reviews from our valued customers on Google. See what they're
+              saying about their experience at Dream World Beauty Parlour.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <Card
-                key={index}
-                className="border-0 shadow-lg hover:shadow-xl transition-shadow"
-              >
-                <CardContent className="p-8">
-                  <div className="flex items-center mb-4">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className="h-5 w-5 text-yellow-400 fill-current"
-                      />
-                    ))}
-                  </div>
-                  <p className="text-gray-700 mb-6 italic leading-relaxed">
-                    "{testimonial.comment}"
-                  </p>
-                  <div>
-                    <p className="font-semibold text-gray-900">
-                      {testimonial.name}
-                    </p>
-                    <p className="text-rose-600 text-sm">
-                      {testimonial.service}
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+          <GoogleReviews maxReviews={3} />
         </div>
       </section>
 
