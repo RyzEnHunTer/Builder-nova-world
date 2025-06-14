@@ -31,8 +31,8 @@ export interface GooglePlacesConfig {
 
 // Default configuration (you'll need to add your actual Place ID and API key)
 const GOOGLE_CONFIG: GooglePlacesConfig = {
-  apiKey: process.env.VITE_GOOGLE_PLACES_API_KEY || "YOUR_API_KEY_HERE",
-  placeId: process.env.VITE_GOOGLE_PLACE_ID || "YOUR_PLACE_ID_HERE", // Your business Place ID
+  apiKey: import.meta.env.VITE_GOOGLE_PLACES_API_KEY || "YOUR_API_KEY_HERE",
+  placeId: import.meta.env.VITE_GOOGLE_PLACE_ID || "YOUR_PLACE_ID_HERE", // Your business Place ID
 };
 
 // Fetch reviews from Google Places API
@@ -114,9 +114,9 @@ export const fetchGoogleReviews = async (): Promise<GoogleReview[]> => {
     const response = await fetch(
       `https://maps.googleapis.com/maps/api/place/details/json?place_id=${GOOGLE_CONFIG.placeId}&fields=reviews,rating,user_ratings_total&key=${GOOGLE_CONFIG.apiKey}`
     );
-    
+
     const data = await response.json();
-    
+
     if (data.status === 'OK' && data.result.reviews) {
       return data.result.reviews.map((review: any, index: number) => ({
         id: `google_${index}`,
@@ -129,7 +129,7 @@ export const fetchGoogleReviews = async (): Promise<GoogleReview[]> => {
         isLocalGuide: review.author_url?.includes('localguides') || false,
       }));
     }
-    
+
     return [];
     */
   } catch (error) {
