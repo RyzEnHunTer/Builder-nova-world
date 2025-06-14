@@ -28,27 +28,30 @@ const Contact = () => {
       icon: MapPin,
       title: "Location",
       details: [
-        "Ramjanki mandir gali, Main Town",
-        "Ghocho Toli, Simdega, Jharkhand 835223",
+        businessInfo.address.street,
+        `${businessInfo.address.city}, ${businessInfo.address.state} ${businessInfo.address.zipCode}`,
       ],
       action: "Get Directions",
     },
     {
       icon: Phone,
       title: "Phone",
-      details: ["+1 (555) 123-4567"],
+      details: [businessInfo.phone],
       action: "Call Now",
     },
     {
       icon: Mail,
       title: "Email",
-      details: ["hello@dreamworldbeauty.com"],
+      details: [businessInfo.email],
       action: "Send Email",
     },
     {
       icon: Clock,
       title: "Hours",
-      details: ["Mon - Sat: 9:00 AM - 8:00 PM", "Sunday: 10:00 AM - 6:00 PM"],
+      details: [
+        `Mon - Sat: ${businessInfo.hours.monday.open} - ${businessInfo.hours.monday.close}`,
+        `Sunday: ${businessInfo.hours.sunday.open} - ${businessInfo.hours.sunday.close}`,
+      ],
       action: "View Schedule",
     },
   ];
