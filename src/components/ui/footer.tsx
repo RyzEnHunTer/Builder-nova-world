@@ -137,7 +137,11 @@ const Footer = () => {
               <div className="flex items-center space-x-3">
                 <Mail className="h-4 w-4 text-rose-600 flex-shrink-0" />
                 <span className="text-sm text-gray-600">
-                  hello@dreamworldbeauty.com
+                  <p>
+                    <span style={{ fontSize: "14px" }}>
+                      dreamworldparlourmail@gmail.com
+                    </span>
+                  </p>
                 </span>
               </div>
               <div className="flex items-start space-x-3">
