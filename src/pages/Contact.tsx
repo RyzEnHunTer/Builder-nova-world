@@ -285,27 +285,10 @@ const Contact = () => {
                       variant="outline"
                       className="w-full justify-start border-blue-300 text-blue-600 hover:bg-blue-50"
                       onClick={() => window.open(`tel:${businessInfo.phone}`, '_self')}
-                        window.open(`tel:${contactInfo.phone}`, "_self")
-                      }
                     >
                       <Phone className="h-5 w-5 mr-3" />
                       Call Now: {businessInfo.phone}
                     </Button>
-                    <Button
-                      variant="outline"
-                      className="w-full justify-start border-rose-300 text-rose-600 hover:bg-rose-50"
-                    >
-                      <Calendar className="h-5 w-5 mr-3" />
-                      Online Booking (Coming Soon)
-                    </Button>
-                  </div>
-
-                  <div className="mt-8 pt-6 border-t border-gray-200">
-                    <h4 className="text-lg font-semibold text-gray-900 mb-4">
-                      Follow Us
-                    </h4>
-                    <div className="flex space-x-4">
-                      <Button
                         variant="ghost"
                         size="icon"
                         className="text-blue-600 hover:bg-blue-50"
