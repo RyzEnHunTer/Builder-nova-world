@@ -37,6 +37,17 @@ const BusinessProfileSetup = () => {
   const [isValidUrl, setIsValidUrl] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [showPreview, setShowPreview] = useState(false);
+  const [syncStatus, setSyncStatus] = useState<{
+    isConnected: boolean;
+    reviewCount: number;
+    lastSync: string | null;
+    isReal: boolean;
+  }>({
+    isConnected: false,
+    reviewCount: 0,
+    lastSync: null,
+    isReal: false,
+  });
 
   // Load saved configuration
   useEffect(() => {
