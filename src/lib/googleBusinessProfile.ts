@@ -621,30 +621,53 @@ export const fetchBusinessReviews = async (): Promise<BusinessReview[]> => {
   try {
     const config = getBusinessConfig();
 
-    // If business URL is configured, fetch real reviews
+    // If business URL is configured, try to fetch real reviews
     if (config.businessUrl && validateBusinessUrl(config.businessUrl)) {
-      console.log("🔍 Fetching real Google Business Profile reviews...");
+      // First check cache
+      const cachedReviews = getCachedGoogleReviews(config.businessUrl);
+      if (cachedReviews && cachedReviews.length > 0) {
+        return cachedReviews;
+      }
 
+      // Fetch fresh reviews from Google
+      console.log("🔍 Fetching fresh Google Business Profile reviews...");
       const realReviews = await fetchRealGoogleReviews(config.businessUrl);
 
       if (realReviews.length > 0) {
-        console.log(`✅ Found ${realReviews.length} real Google reviews`);
+        console.log(
+          `✅ Successfully synced ${realReviews.length} real Google reviews`,
+        );
         return realReviews;
+      } else {
+        console.log(
+          "⚠️ Could not fetch real reviews, using enhanced sample data",
+        );
       }
+    } else {
+      console.log("⚠️ Google Business Profile URL not configured");
     }
 
-    // Fallback to sample reviews if no real reviews found or URL not configured
+    // Fallback to sample reviews with notice
     console.log(
-      "⚠️ Using sample reviews - Please configure Google Business Profile URL",
+      "📝 Using sample reviews - Configure Google Business Profile URL in admin panel for real reviews",
     );
     const reviews = generateSampleReviews(config);
+
+    // Add a marker to distinguish sample vs real reviews
+    const markedReviews = reviews.map((review) => ({
+      ...review,
+      id: `sample_${review.id}`,
+      text:
+        review.text +
+        " [Sample Review - Configure Google Business Profile for real reviews]",
+    }));
 
     // Simulate network delay
     await new Promise((resolve) => setTimeout(resolve, 800));
 
-    return reviews;
+    return markedReviews;
   } catch (error) {
-    console.error("Error fetching business reviews:", error);
+    console.error("❌ Error fetching business reviews:", error);
     return [];
   }
 };
