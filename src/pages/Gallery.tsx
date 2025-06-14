@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import GalleryManager from "@/components/ui/gallery-manager";
+import TutorialModal from "@/components/ui/tutorial-modal";
 import {
   Scissors,
   Palette,
@@ -151,11 +152,15 @@ const Gallery = () => {
                 Transformations
               </span>
             </h1>
-            <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed mb-12">
+            <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed mb-8">
               Discover the artistry and excellence that defines Dream World
               Beauty Parlour. Browse through our collection of stunning
               transformations and see the magic we create every day.
             </p>
+
+            <div className="flex justify-center">
+              <TutorialModal />
+            </div>
           </div>
         </div>
       </section>
