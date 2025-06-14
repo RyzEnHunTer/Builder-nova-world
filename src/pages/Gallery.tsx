@@ -11,6 +11,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import GalleryManager from "@/components/ui/gallery-manager";
 import TutorialModal from "@/components/ui/tutorial-modal";
+import AdminAuth from "@/components/ui/admin-auth";
 import {
   Scissors,
   Palette,
@@ -289,12 +290,14 @@ const Gallery = () => {
               </div>
             </TabsContent>
 
-            {/* Gallery Management Tab */}
+            {/* Gallery Management Tab - Protected by Admin Auth */}
             <TabsContent value="manage">
-              <GalleryManager
-                images={galleryImages}
-                onImagesUpdate={handleImagesUpdate}
-              />
+              <AdminAuth>
+                <GalleryManager
+                  images={galleryImages}
+                  onImagesUpdate={handleImagesUpdate}
+                />
+              </AdminAuth>
             </TabsContent>
           </Tabs>
         </div>
