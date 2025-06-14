@@ -598,16 +598,18 @@ export const fetchBusinessProfileInfo =
     }
   };
 
-// Hook for using Google Business Profile reviews
-export const useBusinessReviews = () => {
+// Hook for using Google Business Profile with complete sync
+export const useBusinessProfile = () => {
   const [reviews, setReviews] = useState<BusinessReview[]>([]);
   const [profileInfo, setProfileInfo] = useState<BusinessProfileInfo | null>(
     null,
   );
   const [loading, setLoading] = useState(true);
+  const [syncing, setSyncing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [lastSyncTime, setLastSyncTime] = useState<string | null>(null);
 
-  const loadReviews = async () => {
+  const loadBusinessData = async () => {
     try {
       setLoading(true);
       const [reviewsData, profileData] = await Promise.all([
@@ -617,24 +619,70 @@ export const useBusinessReviews = () => {
 
       setReviews(reviewsData);
       setProfileInfo(profileData);
+      setLastSyncTime(profileData.lastSyncTime);
       setError(null);
     } catch (err) {
-      setError("Failed to load business reviews");
-      console.error("Error loading business reviews:", err);
+      setError("Failed to load business data");
+      console.error("Error loading business data:", err);
     } finally {
       setLoading(false);
     }
   };
 
+  const forceSyncProfile = async () => {
+    try {
+      setSyncing(true);
+      setError(null);
+
+      const config = getBusinessConfig();
+      if (!config.businessUrl) {
+        throw new Error(
+          "Please configure your Google Business Profile URL first",
+        );
+      }
+
+      const syncedProfile = await syncBusinessProfile();
+      const reviewsData = await fetchBusinessReviews();
+
+      setProfileInfo(syncedProfile);
+      setReviews(reviewsData);
+      setLastSyncTime(syncedProfile.lastSyncTime);
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : "Failed to sync business profile",
+      );
+      console.error("Error syncing business profile:", err);
+    } finally {
+      setSyncing(false);
+    }
+  };
+
   useEffect(() => {
-    loadReviews();
+    loadBusinessData();
+
+    // Set up automatic sync if enabled
+    const config = getBusinessConfig();
+    if (config.autoSync) {
+      const interval = setInterval(
+        () => {
+          if (shouldSync()) {
+            console.log("🔄 Auto-syncing business profile...");
+            forceSyncProfile();
+          }
+        },
+        60 * 60 * 1000,
+      ); // Check every hour
+
+      return () => clearInterval(interval);
+    }
   }, []);
 
-  const refreshReviews = () => {
-    loadReviews();
+  const refreshData = () => {
+    loadBusinessData();
   };
 
   const getAverageRating = () => {
+    if (profileInfo?.averageRating) return profileInfo.averageRating;
     if (reviews.length === 0) return 0;
     const sum = reviews.reduce((acc, review) => acc + review.rating, 0);
     return sum / reviews.length;
@@ -650,17 +698,71 @@ export const useBusinessReviews = () => {
     return reviews.filter((review) => review.rating === rating);
   };
 
+  const getBusinessStatus = () => {
+    if (!profileInfo) return { isOpen: false, status: "Unknown" };
+
+    if (profileInfo.isOpen) {
+      return { isOpen: true, status: "Open Now" };
+    } else if (profileInfo.nextOpenTime) {
+      return { isOpen: false, status: `Opens ${profileInfo.nextOpenTime}` };
+    } else {
+      return { isOpen: false, status: "Closed" };
+    }
+  };
+
+  const formatBusinessHours = () => {
+    if (!profileInfo?.businessHours) return [];
+
+    const days = [
+      "monday",
+      "tuesday",
+      "wednesday",
+      "thursday",
+      "friday",
+      "saturday",
+      "sunday",
+    ] as const;
+    const dayNames = [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday",
+    ];
+
+    return days.map((day, index) => {
+      const hours = profileInfo.businessHours[day];
+      return {
+        day: dayNames[index],
+        isToday: getCurrentDay() === day,
+        ...hours,
+        timeRange: hours.closed ? "Closed" : `${hours.open} - ${hours.close}`,
+      };
+    });
+  };
+
   return {
     reviews,
     profileInfo,
     loading,
+    syncing,
     error,
-    refreshReviews,
+    lastSyncTime,
+    refreshData,
+    forceSyncProfile,
     getAverageRating,
     getLatestReviews,
     getReviewsByRating,
+    getBusinessStatus,
+    formatBusinessHours,
+    shouldSync: shouldSync(),
   };
 };
+
+// Backward compatibility
+export const useBusinessReviews = useBusinessProfile;
 
 // Utility function to open Google Business Profile
 export const openGoogleBusinessProfile = (businessUrl?: string) => {
