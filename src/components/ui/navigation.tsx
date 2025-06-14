@@ -4,10 +4,14 @@ import { Button } from "./button";
 import { Sheet, SheetContent, SheetTrigger } from "./sheet";
 import { Menu, X, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useContactInfo } from "@/contexts/ContactInfoContext";
+import { useWhatsAppBooking, WhatsAppMessages } from "@/lib/whatsapp";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const { contactInfo } = useContactInfo();
+  const { bookAppointment } = useWhatsAppBooking();
 
   const navigation = [
     { name: "Home", href: "/" },
@@ -55,7 +59,10 @@ const Navigation = () => {
                 {item.name}
               </Link>
             ))}
-            <Button className="bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700">
+            <Button
+              className="bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700"
+              onClick={() => bookAppointment(contactInfo.phone)}
+            >
               Book Appointment
             </Button>
             <Link to="/admin/login">
@@ -96,7 +103,10 @@ const Navigation = () => {
                   ))}
                   <Button
                     className="mt-6 bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700"
-                    onClick={() => setIsOpen(false)}
+                    onClick={() => {
+                      setIsOpen(false);
+                      bookAppointment(contactInfo.phone);
+                    }}
                   >
                     Book Appointment
                   </Button>

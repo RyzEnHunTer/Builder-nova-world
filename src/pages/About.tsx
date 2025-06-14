@@ -17,8 +17,12 @@ import {
   Smile,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useContactInfo } from "@/contexts/ContactInfoContext";
+import { useWhatsAppBooking } from "@/lib/whatsapp";
 
 const About = () => {
+  const { contactInfo } = useContactInfo();
+  const { bookAppointment } = useWhatsAppBooking();
   const services = [
     {
       icon: Scissors,
@@ -314,14 +318,13 @@ const About = () => {
             choice for beauty services.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/contact">
-              <Button
-                size="lg"
-                className="bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 text-white px-8 py-4 text-lg"
-              >
-                Book Your Appointment
-              </Button>
-            </Link>
+            <Button
+              size="lg"
+              className="bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 text-white px-8 py-4 text-lg"
+              onClick={() => bookAppointment(contactInfo.phone)}
+            >
+              Book Your Appointment
+            </Button>
             <Link to="/gallery">
               <Button
                 variant="outline"

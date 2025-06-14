@@ -15,12 +15,12 @@ import {
   Crown,
   Sparkles,
   Heart,
-  Settings,
-  Eye,
   Upload,
   FolderOpen,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useContactInfo } from "@/contexts/ContactInfoContext";
+import { useWhatsAppBooking, WhatsAppMessages } from "@/lib/whatsapp";
 import {
   GalleryImage,
   categoryConfigs,
@@ -34,6 +34,8 @@ const Gallery = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [galleryImages, setGalleryImages] = useState<GalleryImage[]>([]);
   const [loading, setLoading] = useState(true);
+  const { contactInfo } = useContactInfo();
+  const { bookAppointment } = useWhatsAppBooking();
 
   // Load gallery images on component mount
   useEffect(() => {
@@ -281,14 +283,18 @@ const Gallery = () => {
             gallery!
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/contact">
-              <Button
-                size="lg"
-                className="bg-white text-rose-600 hover:bg-rose-50 px-8 py-4 text-lg"
-              >
-                Book Your Transformation
-              </Button>
-            </Link>
+            <Button
+              size="lg"
+              className="bg-white text-rose-600 hover:bg-rose-50 px-8 py-4 text-lg"
+              onClick={() =>
+                bookAppointment(
+                  contactInfo.phone,
+                  WhatsAppMessages.GALLERY_INQUIRY,
+                )
+              }
+            >
+              Book Your Transformation
+            </Button>
             <Button
               variant="outline"
               size="lg"

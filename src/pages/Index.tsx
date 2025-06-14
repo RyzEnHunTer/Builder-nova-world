@@ -16,8 +16,12 @@ import {
   CheckCircle,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useContactInfo } from "@/contexts/ContactInfoContext";
+import { useWhatsAppBooking } from "@/lib/whatsapp";
 
 const Index = () => {
+  const { contactInfo } = useContactInfo();
+  const { bookAppointment } = useWhatsAppBooking();
   const services = [
     {
       icon: Scissors,
@@ -119,6 +123,7 @@ const Index = () => {
               <Button
                 size="lg"
                 className="bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 text-white px-8 py-4 text-lg"
+                onClick={() => bookAppointment(contactInfo.phone)}
               >
                 Book Your Appointment
               </Button>
@@ -342,11 +347,12 @@ const Index = () => {
               </div>
 
               <div className="mt-8 flex flex-col sm:flex-row gap-4">
-                <Link to="/contact">
-                  <Button className="bg-white text-rose-600 hover:bg-rose-50 px-8 py-3">
-                    Book Now
-                  </Button>
-                </Link>
+                <Button
+                  className="bg-white text-rose-600 hover:bg-rose-50 px-8 py-3"
+                  onClick={() => bookAppointment(contactInfo.phone)}
+                >
+                  Book Now
+                </Button>
                 <Button
                   variant="outline"
                   className="border-white text-white hover:bg-white/10 px-8 py-3"
