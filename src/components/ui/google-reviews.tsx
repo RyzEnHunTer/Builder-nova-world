@@ -16,10 +16,10 @@ import {
   Shield,
 } from "lucide-react";
 import {
-  useGoogleReviews,
-  generateStarsArray,
-  formatRelativeTime,
-} from "@/lib/googleReviews";
+  useBusinessReviews,
+  generateReviewUrl,
+  openGoogleBusinessProfile,
+} from "@/lib/googleBusinessProfile";
 
 interface GoogleReviewsProps {
   showBusinessInfo?: boolean;
@@ -36,12 +36,12 @@ const GoogleReviews = ({
 }: GoogleReviewsProps) => {
   const {
     reviews,
-    businessInfo,
+    profileInfo: businessInfo,
     loading,
     error,
     refreshReviews,
     getLatestReviews,
-  } = useGoogleReviews();
+  } = useBusinessReviews();
 
   const [showAllReviews, setShowAllReviews] = useState(false);
 
@@ -91,18 +91,16 @@ const GoogleReviews = ({
 
                 <div className="flex items-center gap-4 mb-3">
                   <div className="flex items-center gap-1">
-                    {generateStarsArray(businessInfo.averageRating).map(
-                      (filled, index) => (
-                        <Star
-                          key={index}
-                          className={`h-5 w-5 ${
-                            filled
-                              ? "text-yellow-400 fill-current"
-                              : "text-gray-300"
-                          }`}
-                        />
-                      ),
-                    )}
+                    {Array.from({ length: 5 }, (_, index) => (
+                      <Star
+                        key={index}
+                        className={`h-5 w-5 ${
+                          index < Math.floor(businessInfo.averageRating)
+                            ? "text-yellow-400 fill-current"
+                            : "text-gray-300"
+                        }`}
+                      />
+                    ))}
                     <span className="text-lg font-semibold text-gray-900 ml-2">
                       {businessInfo.averageRating.toFixed(1)}
                     </span>
@@ -126,10 +124,7 @@ const GoogleReviews = ({
                 variant="outline"
                 size="sm"
                 onClick={() =>
-                  window.open(
-                    `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(businessInfo.name)}&query_place_id=${businessInfo.placeId}`,
-                    "_blank",
-                  )
+                  openGoogleBusinessProfile(businessInfo.businessUrl)
                 }
                 className="border-blue-300 text-blue-600 hover:bg-blue-50"
               >
@@ -198,18 +193,16 @@ const GoogleReviews = ({
                       {review.reviewerName}
                     </h4>
                     <div className="flex items-center gap-1">
-                      {generateStarsArray(review.rating).map(
-                        (filled, index) => (
-                          <Star
-                            key={index}
-                            className={`h-4 w-4 ${
-                              filled
-                                ? "text-yellow-400 fill-current"
-                                : "text-gray-300"
-                            }`}
-                          />
-                        ),
-                      )}
+                      {Array.from({ length: 5 }, (_, index) => (
+                        <Star
+                          key={index}
+                          className={`h-4 w-4 ${
+                            index < review.rating
+                              ? "text-yellow-400 fill-current"
+                              : "text-gray-300"
+                          }`}
+                        />
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -277,7 +270,7 @@ const GoogleReviews = ({
           <Button
             onClick={() =>
               window.open(
-                `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent("Dream World Beauty Parlour")}&query_place_id=${businessInfo?.placeId}`,
+                generateReviewUrl(businessInfo?.businessUrl),
                 "_blank",
               )
             }
