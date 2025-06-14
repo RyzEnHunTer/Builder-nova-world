@@ -306,20 +306,44 @@ const BusinessProfileSetup = () => {
                 <span className="text-sm">System is ready</span>
               </div>
               <div className="flex items-center gap-2">
-                {isValidUrl ? (
+                {syncStatus.isConnected && isValidUrl ? (
                   <CheckCircle className="h-5 w-5 text-green-500" />
-                ) : (
+                ) : isValidUrl ? (
                   <AlertCircle className="h-5 w-5 text-yellow-500" />
+                ) : (
+                  <AlertCircle className="h-5 w-5 text-red-500" />
                 )}
                 <span className="text-sm">
-                  {isValidUrl
+                  {syncStatus.isConnected && isValidUrl
                     ? "Business profile connected"
-                    : "Awaiting business profile URL"}
+                    : isValidUrl
+                      ? "Profile URL set, testing connection..."
+                      : "Awaiting business profile URL"}
                 </span>
               </div>
+
+              {syncStatus.isConnected && (
+                <div className="flex items-center gap-2">
+                  {syncStatus.isReal ? (
+                    <CheckCircle className="h-5 w-5 text-green-500" />
+                  ) : (
+                    <AlertCircle className="h-5 w-5 text-yellow-500" />
+                  )}
+                  <span className="text-sm">
+                    {syncStatus.isReal
+                      ? `${syncStatus.reviewCount} real Google reviews synced`
+                      : `Using sample reviews (${syncStatus.reviewCount})`}
+                  </span>
+                </div>
+              )}
+
               <div className="flex items-center gap-2">
                 <RefreshCw className="h-5 w-5 text-blue-500" />
-                <span className="text-sm">Auto-sync: Every 24 hours</span>
+                <span className="text-sm">
+                  {syncStatus.lastSync
+                    ? `Last synced: ${new Date(syncStatus.lastSync).toLocaleString()}`
+                    : "Auto-sync: Every 24 hours"}
+                </span>
               </div>
             </div>
 
