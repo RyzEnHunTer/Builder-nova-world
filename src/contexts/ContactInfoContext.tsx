@@ -139,33 +139,79 @@ interface ContactInfoProviderProps {
 export const ContactInfoProvider: React.FC<ContactInfoProviderProps> = ({
   children,
 }) => {
-  const [contactInfo, setContactInfo] =
-    useState<ContactInfo>(defaultContactInfo);
-
-  // Load saved contact info on mount
-  useEffect(() => {
-    const savedInfo = localStorage.getItem("dreamworld-contact-info");
-    if (savedInfo) {
+  const [contactInfo, setContactInfo] = useState<ContactInfo>(() => {
+    const saved = localStorage.getItem("dreamworld-contact-info");
+    if (saved) {
       try {
-        const parsedInfo = JSON.parse(savedInfo);
-        setContactInfo({ ...defaultContactInfo, ...parsedInfo });
+        const parsed = JSON.parse(saved);
+        return { ...defaultContactInfo, ...parsed };
       } catch (error) {
         console.error("Error parsing saved contact info:", error);
       }
     }
-  }, []);
+    return defaultContactInfo;
+  });
+
+  const [isSyncing, setIsSyncing] = useState(false);
+
+  // Use a separate hook instance to avoid circular dependencies
+  const [googleProfileData, setGoogleProfileData] =
+    useState<BusinessProfileInfo | null>(null);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "dreamworld-contact-info",
+      JSON.stringify(contactInfo),
+    );
+  }, [contactInfo]);
+
+  // Auto-sync with Google Business Profile if enabled
+  useEffect(() => {
+    if (contactInfo.syncWithGoogleBusiness && googleProfileData) {
+      const mergedInfo = mergeGoogleBusinessData(
+        contactInfo,
+        googleProfileData,
+      );
+      if (JSON.stringify(mergedInfo) !== JSON.stringify(contactInfo)) {
+        setContactInfo(mergedInfo);
+      }
+    }
+  }, [googleProfileData, contactInfo.syncWithGoogleBusiness]);
 
   const updateContactInfo = (info: ContactInfo) => {
     setContactInfo(info);
-    localStorage.setItem("dreamworld-contact-info", JSON.stringify(info));
   };
 
   const resetToDefaults = () => {
     setContactInfo(defaultContactInfo);
-    localStorage.setItem(
-      "dreamworld-contact-info",
-      JSON.stringify(defaultContactInfo),
-    );
+  };
+
+  const syncWithGoogleProfile = async () => {
+    if (!contactInfo.syncWithGoogleBusiness) {
+      console.warn("Google Business sync is disabled");
+      return;
+    }
+
+    try {
+      setIsSyncing(true);
+
+      // Import the sync function dynamically to avoid circular dependency
+      const { syncBusinessProfile } = await import(
+        "@/lib/googleBusinessProfile"
+      );
+      const profileData = await syncBusinessProfile();
+
+      setGoogleProfileData(profileData);
+
+      // Merge the data
+      const mergedInfo = mergeGoogleBusinessData(contactInfo, profileData);
+      setContactInfo(mergedInfo);
+    } catch (error) {
+      console.error("Error syncing with Google Business Profile:", error);
+      throw error;
+    } finally {
+      setIsSyncing(false);
+    }
   };
 
   return (
@@ -174,6 +220,9 @@ export const ContactInfoProvider: React.FC<ContactInfoProviderProps> = ({
         contactInfo,
         updateContactInfo,
         resetToDefaults,
+        syncWithGoogleProfile,
+        isSyncing,
+        googleProfileData,
       }}
     >
       {children}
