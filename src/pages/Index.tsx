@@ -16,6 +16,7 @@ import {
   Gift,
   Crown,
   CheckCircle,
+  Mail,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useContactInfo } from "@/contexts/ContactInfoContext";
@@ -24,6 +25,7 @@ import { useWhatsAppBooking } from "@/lib/whatsapp";
 const Index = () => {
   const { contactInfo } = useContactInfo();
   const { bookAppointment } = useWhatsAppBooking();
+
   const services = [
     {
       icon: Scissors,
@@ -100,34 +102,33 @@ const Index = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Button
                 size="lg"
-                className="bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 text-white px-8 py-4 text-lg"
-                onClick={() => bookAppointment(contactInfo.phone)}
+                onClick={() => bookAppointment("homepage_hero")}
+                className="bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white px-8 py-4 text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
               >
                 Book Your Appointment
               </Button>
-              <Link to="/gallery">
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="border-rose-300 text-rose-600 hover:bg-rose-50 px-8 py-4 text-lg"
-                >
-                  View Our Gallery
-                </Button>
-              </Link>
+              <Button
+                variant="outline"
+                size="lg"
+                asChild
+                className="border-2 border-rose-300 text-rose-600 hover:bg-rose-50 px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300"
+              >
+                <Link to="/gallery">View Our Gallery</Link>
+              </Button>
             </div>
 
-            <div className="flex flex-wrap justify-center gap-8 pt-8">
-              <div className="flex items-center space-x-2 text-gray-600">
+            <div className="flex items-center justify-center gap-8 text-sm text-gray-600">
+              <div className="flex items-center gap-2">
+                <Star className="h-5 w-5 text-yellow-400 fill-current" />
+                <span>4.8+ Rating</span>
+              </div>
+              <div className="flex items-center gap-2">
                 <Users className="h-5 w-5 text-rose-500" />
                 <span>500+ Happy Clients</span>
               </div>
-              <div className="flex items-center space-x-2 text-gray-600">
-                <Star className="h-5 w-5 text-yellow-400 fill-current" />
-                <span>4.9/5 Rating</span>
-              </div>
-              <div className="flex items-center space-x-2 text-gray-600">
-                <Sparkles className="h-5 w-5 text-rose-500" />
-                <span>Professional Services</span>
+              <div className="flex items-center gap-2">
+                <Crown className="h-5 w-5 text-purple-500" />
+                <span>Premium Services</span>
               </div>
             </div>
           </div>
@@ -137,16 +138,16 @@ const Index = () => {
       {/* Services Section */}
       <section className="py-20 bg-white">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <Badge className="bg-rose-100 text-rose-600 px-4 py-2 mb-6">
+          <div className="text-center space-y-4 mb-16">
+            <Badge className="bg-rose-100 text-rose-700 px-4 py-2">
               Our Services
             </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Premium Beauty Services
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
+              Transform Your Beauty
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              From hair styling to spa treatments, we offer a complete range of
-              beauty services to help you look and feel your absolute best.
+            <p className="mx-auto max-w-2xl text-lg text-gray-600">
+              Discover our comprehensive range of beauty and wellness services
+              designed to help you look and feel your absolute best.
             </p>
           </div>
 
@@ -154,13 +155,13 @@ const Index = () => {
             {services.map((service, index) => (
               <Card
                 key={index}
-                className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg hover:-translate-y-2"
+                className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg hover:scale-105"
               >
-                <CardContent className="p-8 text-center">
-                  <div className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-r from-rose-100 to-pink-100 mb-6 group-hover:from-rose-200 group-hover:to-pink-200 transition-colors">
+                <CardContent className="p-8 text-center space-y-4">
+                  <div className="mx-auto w-16 h-16 bg-gradient-to-r from-rose-100 to-pink-100 rounded-full flex items-center justify-center group-hover:from-rose-200 group-hover:to-pink-200 transition-colors">
                     <service.icon className="h-8 w-8 text-rose-600" />
                   </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-3">
+                  <h3 className="text-xl font-semibold text-gray-900">
                     {service.title}
                   </h3>
                   <p className="text-gray-600 leading-relaxed">
@@ -170,158 +171,160 @@ const Index = () => {
               </Card>
             ))}
           </div>
+
+          <div className="text-center mt-12">
+            <Button
+              onClick={() => bookAppointment("services_section")}
+              className="bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white px-8 py-3 text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
+            >
+              Book Your Service Today
+            </Button>
+          </div>
         </div>
       </section>
 
       {/* Why Choose Us Section */}
       <section className="py-20 bg-gradient-to-br from-rose-50 to-pink-50">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="space-y-6">
-              <div className="flex items-center gap-2 text-rose-700">
-                <MapPin className="h-5 w-5" />
-                <span className="font-medium">Visit Our Parlour</span>
-              </div>
-              <div className="text-gray-600">
-                <p>{contactInfo.address.street}</p>
-                <p>
-                  {contactInfo.address.city}, {contactInfo.address.state}{" "}
-                  {contactInfo.address.zipCode}
-                </p>
-              </div>
-
-              <div className="flex items-center gap-2 text-rose-700">
-                <Phone className="h-5 w-5" />
-                <span className="font-medium">Call Us</span>
-              </div>
-              <div>
-                <a
-                  href={`tel:${contactInfo.phone}`}
-                  className="text-gray-600 hover:text-rose-600 transition-colors"
-                >
-                  {contactInfo.phone}
-                </a>
-              </div>
-
-              <div className="flex items-center gap-2 text-rose-700">
-                <Mail className="h-5 w-5" />
-                <span className="font-medium">Email Us</span>
-              </div>
-              <div>
-                <a
-                  href={`mailto:${contactInfo.email}`}
-                  className="text-gray-600 hover:text-rose-600 transition-colors"
-                >
-                  {contactInfo.email}
-                </a>
-              </div>
-            </div>
-
-            <div>
-              <BusinessHoursDisplay variant="compact" className="h-fit" />
-            </div>
-        </div>
-      </section>
-
-      {/* Google Reviews Section */}
-      <section className="py-20 bg-white">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <Badge className="bg-rose-100 text-rose-600 px-4 py-2 mb-6">
-              Google Reviews
+          <div className="text-center space-y-4 mb-16">
+            <Badge className="bg-gradient-to-r from-rose-500 to-pink-500 text-white px-4 py-2">
+              Why Choose Us
             </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              What Our Clients Say
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
+              Your Beauty, Our Passion
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Real reviews from our valued customers on Google. See what they're
-              saying about their experience at Dream World Beauty Parlour.
+            <p className="mx-auto max-w-2xl text-lg text-gray-600">
+              We're committed to providing exceptional beauty services with a
+              personal touch that makes every visit special.
             </p>
           </div>
 
-          <GoogleReviews maxReviews={3} />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {whyChooseUs.map((reason, index) => (
+              <div
+                key={index}
+                className="flex items-center gap-4 p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow"
+              >
+                <div className="flex-shrink-0">
+                  <CheckCircle className="h-6 w-6 text-green-500" />
+                </div>
+                <span className="text-gray-700 font-medium">{reason}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Contact & Location Section */}
-      <section className="py-20 bg-gradient-to-br from-rose-900 to-pink-800 text-white">
+      {/* Reviews Section */}
+      <section className="py-20 bg-white">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <Badge className="bg-white/20 text-white px-4 py-2 mb-6">
-                Visit Us
-              </Badge>
-              <h2 className="text-3xl md:text-4xl font-bold mb-6">
-                Ready to Transform Your Look?
-              </h2>
-              <p className="text-xl text-rose-100 mb-8 leading-relaxed">
-                Book your appointment today and experience the Dream World
-                difference. We're conveniently located and ready to serve you.
-              </p>
+          <div className="text-center space-y-4 mb-16">
+            <Badge className="bg-rose-100 text-rose-700 px-4 py-2">
+              Customer Reviews
+            </Badge>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
+              What Our Clients Say
+            </h2>
+            <p className="mx-auto max-w-2xl text-lg text-gray-600">
+              Read real reviews from our satisfied customers who trust us with
+              their beauty needs.
+            </p>
+          </div>
 
+          <GoogleReviews maxReviews={6} showRefreshButton={false} />
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section className="py-20 bg-gradient-to-br from-rose-50 to-pink-50">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="text-center space-y-4 mb-16">
+            <Badge className="bg-gradient-to-r from-rose-500 to-pink-500 text-white px-4 py-2">
+              Get In Touch
+            </Badge>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
+              Visit Us Today
+            </h2>
+            <p className="mx-auto max-w-2xl text-lg text-gray-600">
+              Ready to transform your look? Contact us today to schedule your
+              appointment at Dream World Beauty Parlour.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div className="space-y-8">
               <div className="space-y-6">
-                <div className="flex items-start space-x-4">
-                  <MapPin className="h-6 w-6 text-rose-300 mt-1 flex-shrink-0" />
+                <div className="flex items-start gap-4">
+                  <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-r from-rose-500 to-pink-500 rounded-lg flex items-center justify-center">
+                    <MapPin className="h-6 w-6 text-white" />
+                  </div>
                   <div>
-                    <h3 className="font-semibold text-lg mb-1">Location</h3>
-                    <p className="text-rose-100">
-                      Ramjanki mandir gali, Main Town
+                    <h3 className="font-semibold text-gray-900 mb-2">
+                      Visit Our Parlour
+                    </h3>
+                    <p className="text-gray-600">
+                      {contactInfo.address.street}
                       <br />
-                      Ghocho Toli, Simdega, Jharkhand 835223
+                      {contactInfo.address.city}, {contactInfo.address.state}{" "}
+                      {contactInfo.address.zipCode}
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-start space-x-4">
-                  <Phone className="h-6 w-6 text-rose-300 mt-1 flex-shrink-0" />
+                <div className="flex items-start gap-4">
+                  <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-r from-rose-500 to-pink-500 rounded-lg flex items-center justify-center">
+                    <Phone className="h-6 w-6 text-white" />
+                  </div>
                   <div>
-                    <h3 className="font-semibold text-lg mb-1">Phone</h3>
-                    <p className="text-rose-100">+1 (555) 123-4567</p>
+                    <h3 className="font-semibold text-gray-900 mb-2">
+                      Call Us
+                    </h3>
+                    <a
+                      href={`tel:${contactInfo.phone}`}
+                      className="text-gray-600 hover:text-rose-600 transition-colors"
+                    >
+                      {contactInfo.phone}
+                    </a>
                   </div>
                 </div>
 
-                <div className="flex items-start space-x-4">
-                  <Clock className="h-6 w-6 text-rose-300 mt-1 flex-shrink-0" />
+                <div className="flex items-start gap-4">
+                  <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-r from-rose-500 to-pink-500 rounded-lg flex items-center justify-center">
+                    <Mail className="h-6 w-6 text-white" />
+                  </div>
                   <div>
-                    <h3 className="font-semibold text-lg mb-1">Hours</h3>
-                    <div className="text-rose-100">
-                      <p>Mon - Sat: 9:00 AM - 8:00 PM</p>
-                      <p>Sunday: 10:00 AM - 6:00 PM</p>
-                    </div>
+                    <h3 className="font-semibold text-gray-900 mb-2">
+                      Email Us
+                    </h3>
+                    <a
+                      href={`mailto:${contactInfo.email}`}
+                      className="text-gray-600 hover:text-rose-600 transition-colors"
+                    >
+                      {contactInfo.email}
+                    </a>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-8 flex flex-col sm:flex-row gap-4">
+              <div className="flex gap-4">
                 <Button
-                  className="bg-white text-rose-600 hover:bg-rose-50 px-8 py-3"
-                  onClick={() => bookAppointment(contactInfo.phone)}
+                  onClick={() => bookAppointment("contact_section")}
+                  className="bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white px-8 py-3 text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
                 >
-                  Book Now
+                  Book Appointment via WhatsApp
                 </Button>
                 <Button
                   variant="outline"
-                  className="border-white text-white hover:bg-white/10 px-8 py-3"
+                  asChild
+                  className="border-2 border-rose-300 text-rose-600 hover:bg-rose-50 px-6 py-3 text-lg font-semibold rounded-full transition-all duration-300"
                 >
-                  Call Us
+                  <Link to="/contact">More Contact Options</Link>
                 </Button>
               </div>
             </div>
 
-            <div className="relative">
-              <div className="aspect-video rounded-2xl bg-white/10 backdrop-blur-sm p-4">
-                <div className="h-full w-full rounded-xl bg-white/20 flex items-center justify-center">
-                  <div className="text-center">
-                    <MapPin className="h-16 w-16 text-white mx-auto mb-4" />
-                    <p className="text-white text-lg">
-                      Interactive Map Coming Soon
-                    </p>
-                    <p className="text-rose-200 text-sm">
-                      Click to view directions
-                    </p>
-                  </div>
-                </div>
-              </div>
+            <div className="space-y-6">
+              <BusinessHoursDisplay variant="full" showSync={false} />
             </div>
           </div>
         </div>
