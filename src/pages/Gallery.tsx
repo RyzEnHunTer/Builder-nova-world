@@ -8,10 +8,7 @@ import {
   DialogTrigger,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import GalleryManager from "@/components/ui/gallery-manager";
 import TutorialModal from "@/components/ui/tutorial-modal";
-import AdminAuth from "@/components/ui/admin-auth";
 import {
   Scissors,
   Palette,
@@ -166,140 +163,109 @@ const Gallery = () => {
         </div>
       </section>
 
-      {/* Main Gallery Content */}
-      <section className="py-12 bg-white">
+      {/* Filter Section */}
+      <section className="py-8 bg-white border-b">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <Tabs defaultValue="gallery" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 mb-8">
-              <TabsTrigger value="gallery" className="flex items-center gap-2">
-                <Eye className="h-4 w-4" />
-                View Gallery
-              </TabsTrigger>
-              <TabsTrigger value="manage" className="flex items-center gap-2">
-                <Settings className="h-4 w-4" />
-                Manage Images
-              </TabsTrigger>
-            </TabsList>
+          <div className="flex flex-wrap justify-center gap-4">
+            {categories.map((category, index) => (
+              <Button
+                key={index}
+                variant={
+                  selectedCategory === category.name ? "default" : "outline"
+                }
+                onClick={() => setSelectedCategory(category.name)}
+                className={`px-6 py-2 ${
+                  selectedCategory === category.name
+                    ? "bg-gradient-to-r from-rose-500 to-pink-600 text-white"
+                    : "border-rose-300 text-rose-600 hover:bg-rose-50"
+                }`}
+              >
+                <category.icon className="h-4 w-4 mr-2" />
+                {category.name} ({category.count})
+              </Button>
+            ))}
+          </div>
+        </div>
+      </section>
 
-            {/* Gallery View Tab */}
-            <TabsContent value="gallery" className="space-y-8">
-              {/* Filter Section */}
-              <div className="flex flex-wrap justify-center gap-4">
-                {categories.map((category, index) => (
-                  <Button
-                    key={index}
-                    variant={
-                      selectedCategory === category.name ? "default" : "outline"
-                    }
-                    onClick={() => setSelectedCategory(category.name)}
-                    className={`px-6 py-2 ${
-                      selectedCategory === category.name
-                        ? "bg-gradient-to-r from-rose-500 to-pink-600 text-white"
-                        : "border-rose-300 text-rose-600 hover:bg-rose-50"
-                    }`}
-                  >
-                    <category.icon className="h-4 w-4 mr-2" />
-                    {category.name} ({category.count})
-                  </Button>
-                ))}
-              </div>
-
-              {/* Gallery Grid */}
-              <div className="bg-gradient-to-br from-rose-50 to-pink-50 py-12 rounded-2xl">
-                {filteredImages.length === 0 ? (
-                  <div className="text-center py-20">
-                    <Upload className="h-16 w-16 text-rose-300 mx-auto mb-6" />
-                    <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                      No Images in {selectedCategory}
-                    </h3>
-                    <p className="text-gray-600 mb-6">
-                      Add your first {selectedCategory.toLowerCase()} images
-                      using the Manage Images tab above.
-                    </p>
-                    <Button
-                      onClick={() => {
-                        const manageTab = document.querySelector(
-                          '[value="manage"]',
-                        ) as HTMLElement;
-                        manageTab?.click();
-                      }}
-                      className="bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700"
-                    >
-                      <Upload className="h-4 w-4 mr-2" />
-                      Add Images Now
-                    </Button>
-                  </div>
-                ) : (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 px-6">
-                    {filteredImages.map((image) => (
-                      <Dialog key={image.id}>
-                        <DialogTrigger asChild>
-                          <Card className="group cursor-pointer overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
-                            <div className="aspect-square overflow-hidden">
-                              <img
-                                src={image.url}
-                                alt={image.alt}
-                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                                loading="lazy"
-                                onError={(e) => {
-                                  (e.target as HTMLImageElement).src =
-                                    "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='%23f3f4f6'/%3E%3Ctext x='200' y='200' text-anchor='middle' dy='.3em' fill='%236b7280' font-size='16'%3EImage Not Found%3C/text%3E%3C/svg%3E";
-                                }}
-                              />
-                            </div>
-                            <CardContent className="p-4">
-                              <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-rose-600 transition-colors">
-                                {image.title}
-                              </h3>
-                              <p className="text-sm text-gray-600 mb-2 line-clamp-2">
-                                {image.description}
-                              </p>
-                              <Badge variant="secondary" className="text-xs">
-                                {image.category}
-                              </Badge>
-                            </CardContent>
-                          </Card>
-                        </DialogTrigger>
-                        <DialogContent className="max-w-4xl max-h-[90vh] p-0">
-                          <DialogTitle className="sr-only">
-                            {image.title} - {image.category} Gallery Image
-                          </DialogTitle>
-                          <div className="relative">
-                            <img
-                              src={image.url}
-                              alt={image.alt}
-                              className="w-full h-auto max-h-[80vh] object-contain"
-                            />
-                            <div className="p-6">
-                              <h2 className="text-2xl font-bold text-gray-900 mb-2">
-                                {image.title}
-                              </h2>
-                              <p className="text-gray-600 mb-4">
-                                {image.description}
-                              </p>
-                              <Badge className="bg-rose-100 text-rose-600">
-                                {image.category}
-                              </Badge>
-                            </div>
-                          </div>
-                        </DialogContent>
-                      </Dialog>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </TabsContent>
-
-            {/* Gallery Management Tab - Protected by Admin Auth */}
-            <TabsContent value="manage">
-              <AdminAuth>
-                <GalleryManager
-                  images={galleryImages}
-                  onImagesUpdate={handleImagesUpdate}
-                />
-              </AdminAuth>
-            </TabsContent>
-          </Tabs>
+      {/* Gallery Grid */}
+      <section className="py-20 bg-gradient-to-br from-rose-50 to-pink-50">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          {filteredImages.length === 0 ? (
+            <div className="text-center py-20">
+              <Upload className="h-16 w-16 text-rose-300 mx-auto mb-6" />
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                No Images in {selectedCategory}
+              </h3>
+              <p className="text-gray-600 mb-6">
+                Our {selectedCategory.toLowerCase()} gallery is coming soon!
+                Check back later for amazing transformations.
+              </p>
+              <Link to="/contact">
+                <Button className="bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700">
+                  <Upload className="h-4 w-4 mr-2" />
+                  Book Your Session
+                </Button>
+              </Link>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {filteredImages.map((image) => (
+                <Dialog key={image.id}>
+                  <DialogTrigger asChild>
+                    <Card className="group cursor-pointer overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                      <div className="aspect-square overflow-hidden">
+                        <img
+                          src={image.url}
+                          alt={image.alt}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                          loading="lazy"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src =
+                              "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='%23f3f4f6'/%3E%3Ctext x='200' y='200' text-anchor='middle' dy='.3em' fill='%236b7280' font-size='16'%3EImage Not Found%3C/text%3E%3C/svg%3E";
+                          }}
+                        />
+                      </div>
+                      <CardContent className="p-4">
+                        <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-rose-600 transition-colors">
+                          {image.title}
+                        </h3>
+                        <p className="text-sm text-gray-600 mb-2 line-clamp-2">
+                          {image.description}
+                        </p>
+                        <Badge variant="secondary" className="text-xs">
+                          {image.category}
+                        </Badge>
+                      </CardContent>
+                    </Card>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-4xl max-h-[90vh] p-0">
+                    <DialogTitle className="sr-only">
+                      {image.title} - {image.category} Gallery Image
+                    </DialogTitle>
+                    <div className="relative">
+                      <img
+                        src={image.url}
+                        alt={image.alt}
+                        className="w-full h-auto max-h-[80vh] object-contain"
+                      />
+                      <div className="p-6">
+                        <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                          {image.title}
+                        </h2>
+                        <p className="text-gray-600 mb-4">
+                          {image.description}
+                        </p>
+                        <Badge className="bg-rose-100 text-rose-600">
+                          {image.category}
+                        </Badge>
+                      </div>
+                    </div>
+                  </DialogContent>
+                </Dialog>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
