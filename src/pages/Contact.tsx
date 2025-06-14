@@ -275,39 +275,35 @@ const Contact = () => {
                   </h3>
                   <div className="space-y-4">
                     <Button
-                      className="w-full justify-start bg-green-500 hover:bg-green-600 text-white"
-                      onClick={() => bookAppointment(businessInfo.phone, WhatsAppMessages.CONTACT_INQUIRY)}
-                    >
-                      <MessageCircle className="h-5 w-5 mr-3" />
-                      WhatsApp: {businessInfo.phone}
-                    </Button>
-                    <Button
                       variant="outline"
                       className="w-full justify-start border-blue-300 text-blue-600 hover:bg-blue-50"
-                      onClick={() => window.open(`tel:${businessInfo.phone}`, '_self')}
+                      onClick={() =>
+                        window.open(`tel:${businessInfo.phone}`, "_self")
+                      }
                     >
                       <Phone className="h-5 w-5 mr-3" />
                       Call Now: {businessInfo.phone}
                     </Button>
+                    <Button
+                      variant="outline"
+                      className="w-full justify-start border-rose-300 text-rose-600 hover:bg-rose-50"
+                    >
+                      <Calendar className="h-5 w-5 mr-3" />
+                      Online Booking (Coming Soon)
+                    </Button>
+                  </div>
+
+                  <div className="mt-8 pt-6 border-t border-gray-200">
+                    <h4 className="text-lg font-semibold text-gray-900 mb-4">
+                      Follow Us
+                    </h4>
+                    <div className="flex space-x-4">
+                      <Button
                         variant="ghost"
                         size="icon"
                         className="text-blue-600 hover:bg-blue-50"
                       >
                         <Facebook className="h-5 w-5" />
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="text-pink-600 hover:bg-pink-50"
-                      >
-                        <Instagram className="h-5 w-5" />
-                      </Button>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="text-blue-400 hover:bg-blue-50"
-                      >
-                        <Twitter className="h-5 w-5" />
                       </Button>
                     </div>
                   </div>
