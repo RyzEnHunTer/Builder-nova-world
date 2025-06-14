@@ -2,7 +2,12 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import {
   Scissors,
   Palette,
@@ -189,6 +194,9 @@ const Gallery = () => {
                   </Card>
                 </DialogTrigger>
                 <DialogContent className="max-w-4xl max-h-[90vh] p-0">
+                  <DialogTitle className="sr-only">
+                    {image.title} - {image.category} Gallery Image
+                  </DialogTitle>
                   <div className="relative">
                     <img
                       src={image.url}
