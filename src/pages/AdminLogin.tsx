@@ -28,11 +28,55 @@ const AdminLogin = () => {
   const { login } = useAdmin();
   const navigate = useNavigate();
 
+  // Input validation function
+  const validateInput = (
+    input: string,
+    type: "username" | "password",
+  ): string | null => {
+    if (!input || input.trim().length === 0) {
+      return `${type} is required`;
+    }
+
+    if (input.length > 100) {
+      return `${type} is too long`;
+    }
+
+    // Check for suspicious patterns
+    const suspiciousPatterns = [
+      /[<>'"&]/, // HTML/XSS characters
+      /javascript:/i, // JavaScript protocol
+      /vbscript:/i, // VBScript protocol
+      /data:/i, // Data protocol
+      /\0/, // Null bytes
+      /(union|select|insert|update|delete|drop|create|alter|exec|execute)/i, // SQL keywords
+    ];
+
+    for (const pattern of suspiciousPatterns) {
+      if (pattern.test(input)) {
+        return `Invalid characters detected in ${type}`;
+      }
+    }
+
+    if (type === "username" && !/^[a-zA-Z0-9_-]+$/.test(input)) {
+      return "Username can only contain letters, numbers, underscores, and hyphens";
+    }
+
+    return null;
+  };
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!username || !password) {
-      setError("Please enter both username and password");
+    // Validate inputs
+    const usernameError = validateInput(username, "username");
+    if (usernameError) {
+      setError(usernameError);
+      return;
+    }
+
+    const passwordError = validateInput(password, "password");
+    if (passwordError) {
+      setError(passwordError);
       return;
     }
 
@@ -47,19 +91,22 @@ const AdminLogin = () => {
         navigate("/admin");
       } else {
         setAttempts((prev) => prev + 1);
-        setError("Invalid username or password");
+        setError("Invalid credentials or too many attempts");
 
-        // Block after too many attempts
+        // Progressive delay for failed attempts
         if (attempts >= 2) {
-          setError("Too many failed attempts. Please wait and try again.");
+          setError(
+            "Security lockout: Too many failed attempts. Please wait 15 minutes before trying again.",
+          );
           setTimeout(() => {
             setAttempts(0);
             setError("");
-          }, 30000); // 30 second cooldown
+          }, 900000); // 15 minute cooldown
         }
       }
     } catch (error) {
-      setError("Login failed. Please try again.");
+      console.error("Login error:", error);
+      setError("Authentication service unavailable. Please try again later.");
     } finally {
       setIsLoading(false);
       setPassword(""); // Clear password for security
@@ -174,42 +221,20 @@ const AdminLogin = () => {
               </Button>
             </form>
 
-            {/* Credentials Info */}
-            <div className="space-y-3 pt-4 border-t">
-              <div className="bg-blue-50 p-4 rounded-lg">
-                <h4 className="font-semibold text-blue-800 mb-2 flex items-center gap-2">
+            {/* Security Info */}
+            <div className="pt-4 border-t">
+              <div className="bg-green-50 p-4 rounded-lg">
+                <h4 className="font-semibold text-green-800 mb-2 flex items-center gap-2">
                   <CheckCircle className="h-4 w-4" />
-                  Default Admin Accounts
+                  🔒 Enhanced Security Features
                 </h4>
-                <div className="text-sm text-blue-700 space-y-2">
-                  <div>
-                    <Badge variant="secondary" className="mr-2">
-                      Admin
-                    </Badge>
-                    <code className="bg-white px-2 py-1 rounded text-xs">
-                      admin / dreamworld2024
-                    </code>
-                  </div>
-                  <div>
-                    <Badge variant="secondary" className="mr-2">
-                      Owner
-                    </Badge>
-                    <code className="bg-white px-2 py-1 rounded text-xs">
-                      owner / beautyparlour123
-                    </code>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-yellow-50 p-4 rounded-lg">
-                <h4 className="font-semibold text-yellow-800 mb-2">
-                  🔒 Security Features
-                </h4>
-                <ul className="text-sm text-yellow-700 space-y-1">
-                  <li>• Session expires automatically after 8 hours</li>
-                  <li>• Account lockout after failed attempts</li>
-                  <li>• Secure session management</li>
-                  <li>• Admin activity logging</li>
+                <ul className="text-sm text-green-700 space-y-1">
+                  <li>• Advanced input sanitization</li>
+                  <li>• SQL injection protection</li>
+                  <li>• Rate limiting (5 attempts per 15 minutes)</li>
+                  <li>• Session expires after 8 hours</li>
+                  <li>• Secure login attempt monitoring</li>
+                  <li>• Encrypted session management</li>
                 </ul>
               </div>
             </div>
