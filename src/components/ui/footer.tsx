@@ -16,9 +16,9 @@ const Footer = () => {
   const { contactInfo } = useContactInfo();
 
   const formatTime = (time: string) => {
-    const [hours, minutes] = time.split(':');
+    const [hours, minutes] = time.split(":");
     const hour = parseInt(hours);
-    const ampm = hour >= 12 ? 'PM' : 'AM';
+    const ampm = hour >= 12 ? "PM" : "AM";
     const displayHour = hour % 12 || 12;
     return `${displayHour}:${minutes} ${ampm}`;
   };
@@ -35,10 +35,10 @@ const Footer = () => {
               </div>
               <div className="flex flex-col">
                 <span className="text-lg font-bold text-rose-800">
-                  {contactInfo.businessName.split(' ').slice(0, 2).join(' ')}
+                  Dream World
                 </span>
                 <span className="text-xs text-rose-600 -mt-1">
-                  {contactInfo.businessName.split(' ').slice(2).join(' ')}
+                  Beauty Parlour
                 </span>
               </div>
             </Link>
@@ -52,6 +52,9 @@ const Footer = () => {
                 variant="ghost"
                 size="icon"
                 className="h-8 w-8 text-rose-600 hover:bg-rose-100"
+                onClick={() =>
+                  window.open(contactInfo.socialMedia.facebook, "_blank")
+                }
               >
                 <Facebook className="h-4 w-4" />
               </Button>
@@ -59,6 +62,9 @@ const Footer = () => {
                 variant="ghost"
                 size="icon"
                 className="h-8 w-8 text-rose-600 hover:bg-rose-100"
+                onClick={() =>
+                  window.open(contactInfo.socialMedia.instagram, "_blank")
+                }
               >
                 <Instagram className="h-4 w-4" />
               </Button>
@@ -66,6 +72,9 @@ const Footer = () => {
                 variant="ghost"
                 size="icon"
                 className="h-8 w-8 text-rose-600 hover:bg-rose-100"
+                onClick={() =>
+                  window.open(contactInfo.socialMedia.twitter, "_blank")
+                }
               >
                 <Twitter className="h-4 w-4" />
               </Button>
@@ -120,7 +129,9 @@ const Footer = () => {
             </h3>
             <ul className="space-y-3">
               {contactInfo.services.slice(0, 5).map((service, index) => (
-                <li key={index} className="text-sm text-gray-600">{service}</li>
+                <li key={index} className="text-sm text-gray-600">
+                  {service}
+                </li>
               ))}
             </ul>
           </div>
@@ -136,36 +147,42 @@ const Footer = () => {
                 <span className="text-sm text-gray-600">
                   {contactInfo.address.street}
                   <br />
-                  {contactInfo.address.city}, {contactInfo.address.state} {contactInfo.address.zipCode}
+                  {contactInfo.address.city}, {contactInfo.address.state}{" "}
+                  {contactInfo.address.zipCode}
                 </span>
               </div>
               <div className="flex items-center space-x-3">
                 <Phone className="h-4 w-4 text-rose-600 flex-shrink-0" />
-                <span className="text-sm text-gray-600">{contactInfo.phone}</span>
+                <span className="text-sm text-gray-600">
+                  {contactInfo.phone}
+                </span>
               </div>
               <div className="flex items-center space-x-3">
                 <Mail className="h-4 w-4 text-rose-600 flex-shrink-0" />
                 <span className="text-sm text-gray-600">
-                  <p>
-                    <span style={{ fontSize: '14px' }}>
-                      {contactInfo.email}
-                    </span>
-                  </p>
+                  {contactInfo.email}
                 </span>
               </div>
               <div className="flex items-start space-x-3">
                 <Clock className="h-4 w-4 text-rose-600 mt-0.5 flex-shrink-0" />
                 <div className="text-sm text-gray-600">
-                  <div>Mon - Sat: {formatTime(contactInfo.hours.monday.open)} - {formatTime(contactInfo.hours.monday.close)}</div>
-                  <div>Sunday: {formatTime(contactInfo.hours.sunday.open)} - {formatTime(contactInfo.hours.sunday.close)}</div>
+                  <div>
+                    Mon - Sat: {formatTime(contactInfo.hours.monday.open)} -{" "}
+                    {formatTime(contactInfo.hours.monday.close)}
+                  </div>
+                  <div>
+                    Sunday: {formatTime(contactInfo.hours.sunday.open)} -{" "}
+                    {formatTime(contactInfo.hours.sunday.close)}
+                  </div>
                 </div>
               </div>
+            </div>
           </div>
         </div>
 
         <div className="mt-8 border-t border-rose-200 pt-8">
           <p className="text-center text-sm text-gray-600">
-            © 2024 Dream World Beauty Parlour. All rights reserved.
+            © 2024 {contactInfo.businessName}. All rights reserved.
           </p>
         </div>
       </div>
