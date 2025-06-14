@@ -1,26 +1,114 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import {
-  Camera,
-  Image,
-  Star,
-  Heart,
   Scissors,
   Palette,
   Crown,
   Sparkles,
-  ArrowRight,
+  Heart,
+  Gift,
+  Filter,
+  X,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Gallery = () => {
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
   const categories = [
+    { name: "All", icon: Heart, count: "150+" },
     { name: "Hair Styling", icon: Scissors, count: "50+" },
     { name: "Makeup", icon: Palette, count: "40+" },
     { name: "Bridal", icon: Crown, count: "30+" },
     { name: "Facial Treatments", icon: Sparkles, count: "25+" },
+    { name: "Spa Treatments", icon: Heart, count: "15+" },
   ];
+
+  // Sample gallery images - Replace these URLs with your actual images
+  const galleryImages = [
+    {
+      id: 1,
+      url: "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=500&h=600&fit=crop",
+      alt: "Hair styling transformation",
+      category: "Hair Styling",
+      title: "Elegant Hair Transformation",
+      description: "Beautiful layered cut with highlights",
+    },
+    {
+      id: 2,
+      url: "https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=500&h=600&fit=crop",
+      alt: "Bridal makeup",
+      category: "Bridal",
+      title: "Bridal Perfection",
+      description: "Complete bridal makeover package",
+    },
+    {
+      id: 3,
+      url: "https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?w=500&h=600&fit=crop",
+      alt: "Professional makeup",
+      category: "Makeup",
+      title: "Glamour Makeup",
+      description: "Evening look with dramatic eyes",
+    },
+    {
+      id: 4,
+      url: "https://images.unsplash.com/photo-1522337660859-02fbefca4702?w=500&h=600&fit=crop",
+      alt: "Facial treatment",
+      category: "Facial Treatments",
+      title: "Rejuvenating Facial",
+      description: "Deep cleansing and hydrating treatment",
+    },
+    {
+      id: 5,
+      url: "https://images.unsplash.com/photo-1559599101-f09722fb4948?w=500&h=600&fit=crop",
+      alt: "Hair coloring",
+      category: "Hair Styling",
+      title: "Color Transformation",
+      description: "Balayage highlights on brunette hair",
+    },
+    {
+      id: 6,
+      url: "https://images.unsplash.com/photo-1582095133179-bfd08e2fc6b3?w=500&h=600&fit=crop",
+      alt: "Wedding makeup",
+      category: "Bridal",
+      title: "Wedding Day Glow",
+      description: "Natural bridal makeup with soft curls",
+    },
+    {
+      id: 7,
+      url: "https://images.unsplash.com/photo-1562322140-8baeececf3df?w=500&h=600&fit=crop",
+      alt: "Eye makeup",
+      category: "Makeup",
+      title: "Smokey Eyes",
+      description: "Professional evening makeup",
+    },
+    {
+      id: 8,
+      url: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500&h=600&fit=crop",
+      alt: "Spa treatment",
+      category: "Spa Treatments",
+      title: "Relaxing Spa Session",
+      description: "Peaceful facial and massage treatment",
+    },
+    {
+      id: 9,
+      url: "https://images.unsplash.com/photo-1554213352-5ffe6534af08?w=500&h=600&fit=crop",
+      alt: "Hair updo",
+      category: "Hair Styling",
+      title: "Elegant Updo",
+      description: "Sophisticated braided updo style",
+    },
+    // Add more images as needed...
+  ];
+
+  const filteredImages =
+    selectedCategory === "All"
+      ? galleryImages
+      : galleryImages.filter((img) => img.category === selectedCategory);
 
   return (
     <div className="min-h-screen">
@@ -42,132 +130,149 @@ const Gallery = () => {
               Beauty Parlour. Browse through our collection of stunning
               transformations and see the magic we create every day.
             </p>
-
-            <div className="flex flex-wrap justify-center gap-4 mb-12">
-              {categories.map((category, index) => (
-                <Badge
-                  key={index}
-                  variant="outline"
-                  className="px-4 py-2 text-sm border-rose-300 text-rose-600 hover:bg-rose-50"
-                >
-                  <category.icon className="h-4 w-4 mr-2" />
-                  {category.name} ({category.count})
-                </Badge>
-              ))}
-            </div>
           </div>
         </div>
       </section>
 
-      {/* Coming Soon Section */}
-      <section className="py-20 bg-white">
-        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
-          <Card className="border-0 shadow-2xl">
-            <CardContent className="p-16">
-              <Camera className="h-24 w-24 text-rose-300 mx-auto mb-8" />
+      {/* Filter Section */}
+      <section className="py-8 bg-white border-b">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-wrap justify-center gap-4">
+            {categories.map((category, index) => (
+              <Button
+                key={index}
+                variant={
+                  selectedCategory === category.name ? "default" : "outline"
+                }
+                onClick={() => setSelectedCategory(category.name)}
+                className={`px-6 py-2 ${
+                  selectedCategory === category.name
+                    ? "bg-gradient-to-r from-rose-500 to-pink-600 text-white"
+                    : "border-rose-300 text-rose-600 hover:bg-rose-50"
+                }`}
+              >
+                <category.icon className="h-4 w-4 mr-2" />
+                {category.name} ({category.count})
+              </Button>
+            ))}
+          </div>
+        </div>
+      </section>
 
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-                Gallery Coming Soon
-              </h2>
+      {/* Gallery Grid */}
+      <section className="py-20 bg-gradient-to-br from-rose-50 to-pink-50">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {filteredImages.map((image) => (
+              <Dialog key={image.id}>
+                <DialogTrigger asChild>
+                  <Card className="group cursor-pointer overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                    <div className="aspect-square overflow-hidden">
+                      <img
+                        src={image.url}
+                        alt={image.alt}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                        loading="lazy"
+                      />
+                    </div>
+                    <CardContent className="p-4">
+                      <h3 className="font-semibold text-gray-900 mb-1 group-hover:text-rose-600 transition-colors">
+                        {image.title}
+                      </h3>
+                      <p className="text-sm text-gray-600 mb-2">
+                        {image.description}
+                      </p>
+                      <Badge variant="secondary" className="text-xs">
+                        {image.category}
+                      </Badge>
+                    </CardContent>
+                  </Card>
+                </DialogTrigger>
+                <DialogContent className="max-w-4xl max-h-[90vh] p-0">
+                  <div className="relative">
+                    <img
+                      src={image.url}
+                      alt={image.alt}
+                      className="w-full h-auto max-h-[80vh] object-contain"
+                    />
+                    <div className="p-6">
+                      <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                        {image.title}
+                      </h2>
+                      <p className="text-gray-600 mb-4">{image.description}</p>
+                      <Badge className="bg-rose-100 text-rose-600">
+                        {image.category}
+                      </Badge>
+                    </div>
+                  </div>
+                </DialogContent>
+              </Dialog>
+            ))}
+          </div>
 
-              <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-                We're currently curating our most stunning work to showcase in
-                this gallery. From breathtaking bridal transformations to
-                everyday beauty makeovers, you'll soon be able to browse through
-                hundreds of before-and-after photos.
+          {filteredImages.length === 0 && (
+            <div className="text-center py-20">
+              <p className="text-xl text-gray-500">
+                No images found in this category.
               </p>
+            </div>
+          )}
+        </div>
+      </section>
 
-              <div className="bg-gradient-to-r from-rose-50 to-pink-50 rounded-2xl p-8 mb-8">
-                <h3 className="text-xl font-bold text-gray-900 mb-4">
-                  What to Expect:
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
-                  <div className="flex items-center space-x-3">
-                    <Star className="h-5 w-5 text-rose-500 flex-shrink-0" />
-                    <span className="text-gray-700">
-                      High-quality before & after photos
-                    </span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <Heart className="h-5 w-5 text-rose-500 flex-shrink-0" />
-                    <span className="text-gray-700">
-                      Client transformation stories
-                    </span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <Image className="h-5 w-5 text-rose-500 flex-shrink-0" />
-                    <span className="text-gray-700">
-                      Service category filters
-                    </span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <Sparkles className="h-5 w-5 text-rose-500 flex-shrink-0" />
-                    <span className="text-gray-700">
-                      Behind-the-scenes content
-                    </span>
-                  </div>
+      {/* Instructions Section for Adding Images */}
+      <section className="py-20 bg-white">
+        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+          <Card className="border-2 border-dashed border-rose-300 bg-rose-50">
+            <CardContent className="p-8 text-center">
+              <Gift className="h-16 w-16 text-rose-400 mx-auto mb-6" />
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                How to Add Your Own Images
+              </h2>
+              <div className="text-left max-w-2xl mx-auto space-y-4">
+                <div className="bg-white p-4 rounded-lg">
+                  <h3 className="font-semibold text-gray-900 mb-2">
+                    1. Prepare Your Images
+                  </h3>
+                  <p className="text-gray-600">
+                    Add your beauty parlour images to the{" "}
+                    <code className="bg-gray-100 px-2 py-1 rounded text-sm">
+                      public/images/
+                    </code>{" "}
+                    folder
+                  </p>
+                </div>
+                <div className="bg-white p-4 rounded-lg">
+                  <h3 className="font-semibold text-gray-900 mb-2">
+                    2. Update the Gallery Array
+                  </h3>
+                  <p className="text-gray-600">
+                    Replace the sample URLs in{" "}
+                    <code className="bg-gray-100 px-2 py-1 rounded text-sm">
+                      galleryImages
+                    </code>{" "}
+                    array with your image paths
+                  </p>
+                </div>
+                <div className="bg-white p-4 rounded-lg">
+                  <h3 className="font-semibold text-gray-900 mb-2">
+                    3. Add Categories
+                  </h3>
+                  <p className="text-gray-600">
+                    Categorize each image to match your services (Hair Styling,
+                    Makeup, Bridal, etc.)
+                  </p>
                 </div>
               </div>
-
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <div className="mt-8">
                 <Link to="/contact">
-                  <Button
-                    size="lg"
-                    className="bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 text-white px-8 py-4"
-                  >
-                    Book Consultation
-                    <ArrowRight className="h-5 w-5 ml-2" />
-                  </Button>
-                </Link>
-                <Link to="/about">
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    className="border-rose-300 text-rose-600 hover:bg-rose-50 px-8 py-4"
-                  >
-                    Learn About Our Services
+                  <Button className="bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 text-white">
+                    Need Help? Contact Us
                   </Button>
                 </Link>
               </div>
             </CardContent>
           </Card>
-        </div>
-      </section>
-
-      {/* Temporary Preview Section */}
-      <section className="py-20 bg-gradient-to-br from-rose-50 to-pink-50">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Preview: Our Work Categories
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Here's a sneak peek of the different types of transformations
-              you'll see in our full gallery.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {categories.map((category, index) => (
-              <Card
-                key={index}
-                className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg hover:-translate-y-2"
-              >
-                <CardContent className="p-8 text-center">
-                  <div className="inline-flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-r from-rose-100 to-pink-100 mb-6 group-hover:from-rose-200 group-hover:to-pink-200 transition-colors">
-                    <category.icon className="h-10 w-10 text-rose-600" />
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-3">
-                    {category.name}
-                  </h3>
-                  <p className="text-3xl font-bold text-rose-600 mb-2">
-                    {category.count}
-                  </p>
-                  <p className="text-gray-600">Photos coming soon</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
         </div>
       </section>
 
@@ -179,9 +284,8 @@ const Gallery = () => {
             Ready to Be Our Next Success Story?
           </h2>
           <p className="text-xl text-rose-100 mb-8 leading-relaxed">
-            Don't wait for the gallery – experience the transformation yourself!
-            Book your appointment today and become part of our collection of
-            beautiful success stories.
+            Book your appointment today and become part of our beautiful
+            gallery!
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/contact">
@@ -197,7 +301,7 @@ const Gallery = () => {
               size="lg"
               className="border-white text-white hover:bg-white/10 px-8 py-4 text-lg"
             >
-              Call Now: (555) 123-4567
+              Call Now: +1 (555) 123-4567
             </Button>
           </div>
         </div>
