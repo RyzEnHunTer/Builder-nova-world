@@ -37,7 +37,10 @@ const GOOGLE_CONFIG: GooglePlacesConfig = {
 
 // Check if we're in demo mode
 const isDemoMode = () => {
-  return GOOGLE_CONFIG.apiKey === "demo_mode" || GOOGLE_CONFIG.placeId === "demo_place_id";
+  return (
+    GOOGLE_CONFIG.apiKey === "demo_mode" ||
+    GOOGLE_CONFIG.placeId === "demo_place_id"
+  );
 };
 
 // Fetch reviews from Google Places API
@@ -46,98 +49,80 @@ export const fetchGoogleReviews = async (): Promise<GoogleReview[]> => {
     // Check if we're in demo mode or production mode
     if (isDemoMode()) {
       // Return sample data for demo
+      const sampleReviews: GoogleReview[] = [
+        {
+          id: "1",
+          reviewerName: "Priya Sharma",
+          rating: 5,
+          text: "Amazing service at Dream World Beauty Parlour! The staff is so professional and my hair looks incredible. Best haircut I've ever had. Highly recommend this place!",
+          time: "2024-01-15T10:30:00Z",
+          relativeTimeDescription: "2 weeks ago",
+          reviewerPhotoUrl: "",
+          isLocalGuide: true,
+        },
+        {
+          id: "2",
+          reviewerName: "Anjali Singh",
+          rating: 5,
+          text: "Perfect bridal package! They made me feel like a princess on my wedding day. The makeup artist was so skilled and the hair styling was exactly what I wanted. Thank you Dream World!",
+          time: "2024-01-10T14:20:00Z",
+          relativeTimeDescription: "3 weeks ago",
+          reviewerPhotoUrl: "",
+          isLocalGuide: false,
+        },
+        {
+          id: "3",
+          reviewerName: "Meera Gupta",
+          rating: 5,
+          text: "Best facial treatment ever! My skin is glowing and feels so refreshed. The ambiance is lovely and the staff is very caring. Will definitely be back for more treatments!",
+          time: "2024-01-05T16:45:00Z",
+          relativeTimeDescription: "1 month ago",
+          reviewerPhotoUrl: "",
+          isLocalGuide: false,
+        },
+        {
+          id: "4",
+          reviewerName: "Sita Devi",
+          rating: 5,
+          text: "Wonderful experience! Very clean salon, friendly staff, and excellent service. Got a complete makeover and I love how I look. Prices are also very reasonable.",
+          time: "2023-12-28T11:15:00Z",
+          relativeTimeDescription: "1 month ago",
+          reviewerPhotoUrl: "",
+          isLocalGuide: true,
+        },
+        {
+          id: "5",
+          reviewerName: "Kavita Kumari",
+          rating: 4,
+          text: "Good service and nice atmosphere. The hair styling was great and the staff was professional. Only small issue was the waiting time, but overall very satisfied with the results.",
+          time: "2023-12-20T13:30:00Z",
+          relativeTimeDescription: "1 month ago",
+          reviewerPhotoUrl: "",
+          isLocalGuide: false,
+        },
+        {
+          id: "6",
+          reviewerName: "Sunita Raj",
+          rating: 5,
+          text: "Excellent spa treatments! The massage was so relaxing and the facial made my skin feel amazing. The parlour is very hygienic and well-maintained. Highly recommended!",
+          time: "2023-12-15T09:45:00Z",
+          relativeTimeDescription: "2 months ago",
+          reviewerPhotoUrl: "",
+          isLocalGuide: false,
+        },
+      ];
 
-    const sampleReviews: GoogleReview[] = [
-      {
-        id: "1",
-        reviewerName: "Priya Sharma",
-        rating: 5,
-        text: "Amazing service at Dream World Beauty Parlour! The staff is so professional and my hair looks incredible. Best haircut I've ever had. Highly recommend this place!",
-        time: "2024-01-15T10:30:00Z",
-        relativeTimeDescription: "2 weeks ago",
-        reviewerPhotoUrl: "",
-        isLocalGuide: true,
-      },
-      {
-        id: "2",
-        reviewerName: "Anjali Singh",
-        rating: 5,
-        text: "Perfect bridal package! They made me feel like a princess on my wedding day. The makeup artist was so skilled and the hair styling was exactly what I wanted. Thank you Dream World!",
-        time: "2024-01-10T14:20:00Z",
-        relativeTimeDescription: "3 weeks ago",
-        reviewerPhotoUrl: "",
-        isLocalGuide: false,
-      },
-      {
-        id: "3",
-        reviewerName: "Meera Gupta",
-        rating: 5,
-        text: "Best facial treatment ever! My skin is glowing and feels so refreshed. The ambiance is lovely and the staff is very caring. Will definitely be back for more treatments!",
-        time: "2024-01-05T16:45:00Z",
-        relativeTimeDescription: "1 month ago",
-        reviewerPhotoUrl: "",
-        isLocalGuide: false,
-      },
-      {
-        id: "4",
-        reviewerName: "Sita Devi",
-        rating: 5,
-        text: "Wonderful experience! Very clean salon, friendly staff, and excellent service. Got a complete makeover and I love how I look. Prices are also very reasonable.",
-        time: "2023-12-28T11:15:00Z",
-        relativeTimeDescription: "1 month ago",
-        reviewerPhotoUrl: "",
-        isLocalGuide: true,
-      },
-      {
-        id: "5",
-        reviewerName: "Kavita Kumari",
-        rating: 4,
-        text: "Good service and nice atmosphere. The hair styling was great and the staff was professional. Only small issue was the waiting time, but overall very satisfied with the results.",
-        time: "2023-12-20T13:30:00Z",
-        relativeTimeDescription: "1 month ago",
-        reviewerPhotoUrl: "",
-        isLocalGuide: false,
-      },
-      {
-        id: "6",
-        reviewerName: "Sunita Raj",
-        rating: 5,
-        text: "Excellent spa treatments! The massage was so relaxing and the facial made my skin feel amazing. The parlour is very hygienic and well-maintained. Highly recommended!",
-        time: "2023-12-15T09:45:00Z",
-        relativeTimeDescription: "2 months ago",
-        reviewerPhotoUrl: "",
-        isLocalGuide: false,
-      },
-    ];
+      // Simulate API delay
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      return sampleReviews;
+    } else {
+      // Production mode - would call real Google Places API here
+      console.log("Production mode: Would call Google Places API");
 
-    // Simulate API delay
-    await new Promise((resolve) => setTimeout(resolve, 500));
-
-    return sampleReviews;
-
-    // Real Google Places API call would look like this:
-    /*
-    const response = await fetch(
-      `https://maps.googleapis.com/maps/api/place/details/json?place_id=${GOOGLE_CONFIG.placeId}&fields=reviews,rating,user_ratings_total&key=${GOOGLE_CONFIG.apiKey}`
-    );
-
-    const data = await response.json();
-
-    if (data.status === 'OK' && data.result.reviews) {
-      return data.result.reviews.map((review: any, index: number) => ({
-        id: `google_${index}`,
-        reviewerName: review.author_name,
-        reviewerPhotoUrl: review.profile_photo_url,
-        rating: review.rating,
-        text: review.text,
-        time: new Date(review.time * 1000).toISOString(),
-        relativeTimeDescription: review.relative_time_description,
-        isLocalGuide: review.author_url?.includes('localguides') || false,
-      }));
+      // For now, return demo data until API is configured
+      // In real implementation, this would make actual API call
+      return [];
     }
-
-    return [];
-    */
   } catch (error) {
     console.error("Error fetching Google reviews:", error);
     return [];
@@ -152,24 +137,24 @@ export const fetchGoogleBusinessInfo =
       if (isDemoMode()) {
         // Return sample business info for demo
         const businessInfo: GoogleBusinessInfo = {
-        name: "Dream World Beauty Parlour",
-        placeId: GOOGLE_CONFIG.placeId,
-        averageRating: 4.8,
-        totalReviews: 127,
-        address:
-          "Ramjanki mandir gali, Main Town, Ghocho Toli, Simdega, Jharkhand 835223",
-        phoneNumber: "+91 98765 43210",
-        website: "dreamworldbeauty.com",
-        openingHours: [
-          "Monday: 9:00 AM – 8:00 PM",
-          "Tuesday: 9:00 AM – 8:00 PM",
-          "Wednesday: 9:00 AM – 8:00 PM",
-          "Thursday: 9:00 AM – 8:00 PM",
-          "Friday: 9:00 AM – 8:00 PM",
-          "Saturday: 9:00 AM – 8:00 PM",
-          "Sunday: 10:00 AM – 6:00 PM",
-        ],
-      };
+          name: "Dream World Beauty Parlour",
+          placeId: GOOGLE_CONFIG.placeId,
+          averageRating: 4.8,
+          totalReviews: 127,
+          address:
+            "Ramjanki mandir gali, Main Town, Ghocho Toli, Simdega, Jharkhand 835223",
+          phoneNumber: "+91 98765 43210",
+          website: "dreamworldbeauty.com",
+          openingHours: [
+            "Monday: 9:00 AM – 8:00 PM",
+            "Tuesday: 9:00 AM – 8:00 PM",
+            "Wednesday: 9:00 AM – 8:00 PM",
+            "Thursday: 9:00 AM – 8:00 PM",
+            "Friday: 9:00 AM – 8:00 PM",
+            "Saturday: 9:00 AM – 8:00 PM",
+            "Sunday: 10:00 AM – 6:00 PM",
+          ],
+        };
 
         await new Promise((resolve) => setTimeout(resolve, 300));
         return businessInfo;
@@ -185,7 +170,8 @@ export const fetchGoogleBusinessInfo =
           placeId: GOOGLE_CONFIG.placeId,
           averageRating: 4.8,
           totalReviews: 127,
-          address: "Ramjanki mandir gali, Main Town, Ghocho Toli, Simdega, Jharkhand 835223",
+          address:
+            "Ramjanki mandir gali, Main Town, Ghocho Toli, Simdega, Jharkhand 835223",
           phoneNumber: "+91 98765 43210",
           website: "dreamworldbeauty.com",
           openingHours: [
