@@ -20,8 +20,9 @@ import { useContactInfo } from "@/contexts/ContactInfoContext";
 import { useWhatsAppBooking, WhatsAppMessages } from "@/lib/whatsapp";
 
 const Contact = () => {
-  const { contactInfo } = useContactInfo();
+  const { contactInfo: businessInfo } = useContactInfo();
   const { bookAppointment } = useWhatsAppBooking();
+
   const contactInfo = [
     {
       icon: MapPin,
@@ -275,7 +276,7 @@ const Contact = () => {
                   <div className="space-y-4">
                     <Button
                       className="w-full justify-start bg-green-500 hover:bg-green-600 text-white"
-                      onClick={() =>
+                      onClick={() => bookAppointment(businessInfo.phone, WhatsAppMessages.CONTACT_INQUIRY)}
                         bookAppointment(
                           contactInfo.phone,
                           WhatsAppMessages.CONTACT_INQUIRY,
@@ -283,17 +284,17 @@ const Contact = () => {
                       }
                     >
                       <MessageCircle className="h-5 w-5 mr-3" />
-                      WhatsApp: {contactInfo.phone}
+                      WhatsApp: {businessInfo.phone}
                     </Button>
                     <Button
                       variant="outline"
                       className="w-full justify-start border-blue-300 text-blue-600 hover:bg-blue-50"
-                      onClick={() =>
+                      onClick={() => window.open(`tel:${businessInfo.phone}`, '_self')}
                         window.open(`tel:${contactInfo.phone}`, "_self")
                       }
                     >
                       <Phone className="h-5 w-5 mr-3" />
-                      Call Now: {contactInfo.phone}
+                      Call Now: {businessInfo.phone}
                     </Button>
                     <Button
                       variant="outline"
