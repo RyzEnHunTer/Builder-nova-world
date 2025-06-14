@@ -94,45 +94,6 @@ const About = () => {
     },
   ];
 
-  const team = [
-    {
-      name: "Maria Rodriguez",
-      role: "Founder & Senior Stylist",
-      experience: "12+ years",
-      specialties: [
-        "Hair Cutting & Styling",
-        "Color Specialist",
-        "Bridal Hair",
-      ],
-      description:
-        "Maria founded Dream World with a vision to create a space where beauty meets artistry.",
-    },
-    {
-      name: "Sarah Chen",
-      role: "Senior Makeup Artist",
-      experience: "8+ years",
-      specialties: ["Bridal Makeup", "Special Effects", "Photography Makeup"],
-      description:
-        "Sarah brings creativity and precision to every makeup application.",
-    },
-    {
-      name: "Emma Thompson",
-      role: "Esthetician & Spa Therapist",
-      experience: "10+ years",
-      specialties: ["Facial Treatments", "Skincare", "Massage Therapy"],
-      description:
-        "Emma specializes in rejuvenating treatments and holistic wellness.",
-    },
-    {
-      name: "Lisa Kumar",
-      role: "Hair Color Specialist",
-      experience: "6+ years",
-      specialties: ["Color Correction", "Highlights", "Balayage"],
-      description:
-        "Lisa is our expert in creating stunning color transformations.",
-    },
-  ];
-
   const values = [
     {
       icon: Heart,
@@ -299,63 +260,6 @@ const About = () => {
                         <CheckCircle className="h-4 w-4 text-rose-500 flex-shrink-0" />
                         <span className="text-sm text-gray-600">{feature}</span>
                       </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Team Section */}
-      <section className="py-20 bg-white">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <Badge className="bg-rose-100 text-rose-600 px-4 py-2 mb-6">
-              Our Team
-            </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Meet Our Expert Professionals
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Our talented team of certified beauty professionals brings years
-              of experience, continuous training, and genuine passion for making
-              you look and feel amazing.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {team.map((member, index) => (
-              <Card
-                key={index}
-                className="text-center border-0 shadow-lg hover:shadow-xl transition-shadow"
-              >
-                <CardContent className="p-8">
-                  <div className="w-24 h-24 rounded-full bg-gradient-to-br from-rose-200 to-pink-200 mx-auto mb-6 flex items-center justify-center">
-                    <Users className="h-12 w-12 text-rose-600" />
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">
-                    {member.name}
-                  </h3>
-                  <p className="text-rose-600 font-medium mb-2">
-                    {member.role}
-                  </p>
-                  <p className="text-sm text-gray-500 mb-4">
-                    {member.experience}
-                  </p>
-                  <p className="text-gray-600 text-sm mb-4 leading-relaxed">
-                    {member.description}
-                  </p>
-                  <div className="space-y-1">
-                    {member.specialties.map((specialty, idx) => (
-                      <Badge
-                        key={idx}
-                        variant="secondary"
-                        className="text-xs mr-1 mb-1"
-                      >
-                        {specialty}
-                      </Badge>
                     ))}
                   </div>
                 </CardContent>
