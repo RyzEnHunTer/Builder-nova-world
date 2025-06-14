@@ -1,4 +1,9 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import {
+  useBusinessProfile,
+  BusinessProfileInfo,
+  BusinessHours as GoogleBusinessHours,
+} from "@/lib/googleBusinessProfile";
 
 export interface ContactInfo {
   businessName: string;
@@ -25,12 +30,17 @@ export interface ContactInfo {
     twitter: string;
   };
   services: string[];
+  syncWithGoogleBusiness: boolean;
+  lastGoogleSync?: string;
 }
 
 interface ContactInfoContextType {
   contactInfo: ContactInfo;
   updateContactInfo: (info: ContactInfo) => void;
   resetToDefaults: () => void;
+  syncWithGoogleProfile: () => Promise<void>;
+  isSyncing: boolean;
+  googleProfileData: BusinessProfileInfo | null;
 }
 
 const ContactInfoContext = createContext<ContactInfoContextType | undefined>(
