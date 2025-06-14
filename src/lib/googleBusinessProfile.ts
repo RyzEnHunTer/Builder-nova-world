@@ -531,30 +531,69 @@ export const fetchBusinessReviews = async (): Promise<BusinessReview[]> => {
   }
 };
 
-// Fetch business profile information
+// Fetch business profile information with sync
 export const fetchBusinessProfileInfo =
   async (): Promise<BusinessProfileInfo> => {
     try {
-      const config = getBusinessConfig();
+      // Check for cached data first
+      const cached = getCachedBusinessProfile();
 
-      const profileInfo: BusinessProfileInfo = {
+      // If we have cached data and don't need to sync, use it
+      if (cached && !shouldSync()) {
+        console.log("📋 Using cached business profile data");
+        return cached;
+      }
+
+      // If business URL is configured, sync with Google Business Profile
+      const config = getBusinessConfig();
+      if (config.businessUrl && validateBusinessUrl(config.businessUrl)) {
+        console.log("🔄 Syncing with Google Business Profile...");
+        return await syncBusinessProfile();
+      }
+
+      // Fallback to default data
+      console.log("⚠️ Using default business profile data");
+      const defaultProfile: BusinessProfileInfo = {
         businessName: config.businessName,
+        description:
+          "Premium beauty parlour offering professional beauty services",
         averageRating: 4.8,
         totalReviews: 127,
         businessUrl: config.businessUrl,
         isVerified: true,
+        businessHours: getDefaultBusinessHours(),
+        location: getDefaultLocation(),
+        contact: getDefaultContact(),
+        categories: ["Beauty Salon", "Hair Salon"],
+        attributes: [],
+        photos: [],
+        lastSyncTime: new Date().toISOString(),
+        isOpen: isBusinessOpen(getDefaultBusinessHours()),
       };
 
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      return profileInfo;
+      defaultProfile.nextOpenTime = defaultProfile.isOpen
+        ? undefined
+        : getNextOpenTime(defaultProfile.businessHours);
+
+      return defaultProfile;
     } catch (error) {
       console.error("Error fetching business profile info:", error);
+
+      // Return minimal fallback data
       return {
         businessName: "Dream World Beauty Parlour",
         averageRating: 4.8,
         totalReviews: 127,
         businessUrl: "",
         isVerified: true,
+        businessHours: getDefaultBusinessHours(),
+        location: getDefaultLocation(),
+        contact: getDefaultContact(),
+        categories: ["Beauty Salon"],
+        attributes: [],
+        photos: [],
+        lastSyncTime: new Date().toISOString(),
+        isOpen: false,
       };
     }
   };
