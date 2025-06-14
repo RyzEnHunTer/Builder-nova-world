@@ -31,15 +31,21 @@ export interface GooglePlacesConfig {
 
 // Default configuration (you'll need to add your actual Place ID and API key)
 const GOOGLE_CONFIG: GooglePlacesConfig = {
-  apiKey: import.meta.env.VITE_GOOGLE_PLACES_API_KEY || "YOUR_API_KEY_HERE",
-  placeId: import.meta.env.VITE_GOOGLE_PLACE_ID || "YOUR_PLACE_ID_HERE", // Your business Place ID
+  apiKey: import.meta.env.VITE_GOOGLE_PLACES_API_KEY || "demo_mode",
+  placeId: import.meta.env.VITE_GOOGLE_PLACE_ID || "demo_place_id",
+};
+
+// Check if we're in demo mode
+const isDemoMode = () => {
+  return GOOGLE_CONFIG.apiKey === "demo_mode" || GOOGLE_CONFIG.placeId === "demo_place_id";
 };
 
 // Fetch reviews from Google Places API
 export const fetchGoogleReviews = async (): Promise<GoogleReview[]> => {
   try {
-    // In production, this would call the Google Places API
-    // For now, we'll return sample data that matches Google's format
+    // Check if we're in demo mode or production mode
+    if (isDemoMode()) {
+      // Return sample data for demo
 
     const sampleReviews: GoogleReview[] = [
       {
@@ -142,8 +148,10 @@ export const fetchGoogleReviews = async (): Promise<GoogleReview[]> => {
 export const fetchGoogleBusinessInfo =
   async (): Promise<GoogleBusinessInfo | null> => {
     try {
-      // Sample business info
-      const businessInfo: GoogleBusinessInfo = {
+      // Check if we're in demo mode
+      if (isDemoMode()) {
+        // Return sample business info for demo
+        const businessInfo: GoogleBusinessInfo = {
         name: "Dream World Beauty Parlour",
         placeId: GOOGLE_CONFIG.placeId,
         averageRating: 4.8,
@@ -163,8 +171,37 @@ export const fetchGoogleBusinessInfo =
         ],
       };
 
-      await new Promise((resolve) => setTimeout(resolve, 300));
-      return businessInfo;
+        await new Promise((resolve) => setTimeout(resolve, 300));
+        return businessInfo;
+      } else {
+        // Production mode - call real Google Places API
+        // This would be implemented when you have real API key and Place ID
+        console.log("Production mode: Would call Google Places API here");
+
+        // For now, return demo data even in production mode
+        // Replace this with actual API call when configured
+        const businessInfo: GoogleBusinessInfo = {
+          name: "Dream World Beauty Parlour",
+          placeId: GOOGLE_CONFIG.placeId,
+          averageRating: 4.8,
+          totalReviews: 127,
+          address: "Ramjanki mandir gali, Main Town, Ghocho Toli, Simdega, Jharkhand 835223",
+          phoneNumber: "+91 98765 43210",
+          website: "dreamworldbeauty.com",
+          openingHours: [
+            "Monday: 9:00 AM – 8:00 PM",
+            "Tuesday: 9:00 AM – 8:00 PM",
+            "Wednesday: 9:00 AM – 8:00 PM",
+            "Thursday: 9:00 AM – 8:00 PM",
+            "Friday: 9:00 AM – 8:00 PM",
+            "Saturday: 9:00 AM – 8:00 PM",
+            "Sunday: 10:00 AM – 6:00 PM",
+          ],
+        };
+
+        await new Promise((resolve) => setTimeout(resolve, 300));
+        return businessInfo;
+      }
     } catch (error) {
       console.error("Error fetching business info:", error);
       return null;
