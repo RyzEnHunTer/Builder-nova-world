@@ -24,41 +24,35 @@ const Index = () => {
       title: "Hair Styling & Cuts",
       description:
         "Professional hair cuts, styling, coloring, and treatments for all hair types.",
-      price: "Starting at $45",
     },
     {
       icon: Sparkles,
       title: "Facial Treatments",
       description:
         "Rejuvenating facials, anti-aging treatments, and skincare consultations.",
-      price: "Starting at $65",
     },
     {
       icon: Palette,
       title: "Makeup & Beauty",
       description:
         "Professional makeup for special occasions, events, and everyday beauty.",
-      price: "Starting at $35",
     },
     {
       icon: Crown,
       title: "Bridal Packages",
       description: "Complete bridal makeover packages for your special day.",
-      price: "Starting at $250",
     },
     {
       icon: Heart,
       title: "Spa Treatments",
       description:
         "Relaxing massages, body treatments, and wellness therapies.",
-      price: "Starting at $80",
     },
     {
       icon: Gift,
       title: "Special Packages",
       description:
         "Customized beauty packages for birthdays, anniversaries, and celebrations.",
-      price: "Starting at $120",
     },
   ];
 
@@ -186,11 +180,8 @@ const Index = () => {
                   <h3 className="text-xl font-bold text-gray-900 mb-3">
                     {service.title}
                   </h3>
-                  <p className="text-gray-600 mb-4 leading-relaxed">
+                  <p className="text-gray-600 leading-relaxed">
                     {service.description}
-                  </p>
-                  <p className="text-rose-600 font-semibold text-lg">
-                    {service.price}
                   </p>
                 </CardContent>
               </Card>
