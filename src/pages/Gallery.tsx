@@ -33,11 +33,12 @@ const Gallery = () => {
     { name: "Spa Treatments", icon: Heart, count: "15+" },
   ];
 
-  // Sample gallery images - Replace these URLs with your actual images
+  // Custom gallery images - Add your beauty parlour photos here
   const galleryImages = [
+    // Hair Styling Images
     {
       id: 1,
-      url: "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=500&h=600&fit=crop",
+      url: "/images/hair-styling/hair-cut-1.jpg", // Replace with your image filename
       alt: "Hair styling transformation",
       category: "Hair Styling",
       title: "Elegant Hair Transformation",
@@ -45,15 +46,17 @@ const Gallery = () => {
     },
     {
       id: 2,
-      url: "https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=500&h=600&fit=crop",
-      alt: "Bridal makeup",
-      category: "Bridal",
-      title: "Bridal Perfection",
-      description: "Complete bridal makeover package",
+      url: "/images/hair-styling/hair-color-1.jpg", // Replace with your image filename
+      alt: "Hair coloring service",
+      category: "Hair Styling",
+      title: "Color Transformation",
+      description: "Professional hair coloring service",
     },
+
+    // Makeup Images
     {
       id: 3,
-      url: "https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?w=500&h=600&fit=crop",
+      url: "/images/makeup/makeup-1.jpg", // Replace with your image filename
       alt: "Professional makeup",
       category: "Makeup",
       title: "Glamour Makeup",
@@ -61,53 +64,77 @@ const Gallery = () => {
     },
     {
       id: 4,
-      url: "https://images.unsplash.com/photo-1522337660859-02fbefca4702?w=500&h=600&fit=crop",
+      url: "/images/makeup/makeup-2.jpg", // Replace with your image filename
+      alt: "Party makeup",
+      category: "Makeup",
+      title: "Party Perfect",
+      description: "Stunning party makeup look",
+    },
+
+    // Bridal Images
+    {
+      id: 5,
+      url: "/images/bridal/bridal-1.jpg", // Replace with your image filename
+      alt: "Bridal makeup",
+      category: "Bridal",
+      title: "Bridal Perfection",
+      description: "Complete bridal makeover package",
+    },
+    {
+      id: 6,
+      url: "/images/bridal/bridal-2.jpg", // Replace with your image filename
+      alt: "Wedding makeup",
+      category: "Bridal",
+      title: "Wedding Day Glow",
+      description: "Natural bridal makeup with soft curls",
+    },
+
+    // Facial Treatment Images
+    {
+      id: 7,
+      url: "/images/facial/facial-1.jpg", // Replace with your image filename
       alt: "Facial treatment",
       category: "Facial Treatments",
       title: "Rejuvenating Facial",
       description: "Deep cleansing and hydrating treatment",
     },
     {
-      id: 5,
-      url: "https://images.unsplash.com/photo-1559599101-f09722fb4948?w=500&h=600&fit=crop",
-      alt: "Hair coloring",
-      category: "Hair Styling",
-      title: "Color Transformation",
-      description: "Balayage highlights on brunette hair",
-    },
-    {
-      id: 6,
-      url: "https://images.unsplash.com/photo-1582095133179-bfd08e2fc6b3?w=500&h=600&fit=crop",
-      alt: "Wedding makeup",
-      category: "Bridal",
-      title: "Wedding Day Glow",
-      description: "Natural bridal makeup with soft curls",
-    },
-    {
-      id: 7,
-      url: "https://images.unsplash.com/photo-1562322140-8baeececf3df?w=500&h=600&fit=crop",
-      alt: "Eye makeup",
-      category: "Makeup",
-      title: "Smokey Eyes",
-      description: "Professional evening makeup",
-    },
-    {
       id: 8,
-      url: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500&h=600&fit=crop",
+      url: "/images/facial/facial-2.jpg", // Replace with your image filename
+      alt: "Skincare treatment",
+      category: "Facial Treatments",
+      title: "Glowing Skin Treatment",
+      description: "Advanced skincare therapy",
+    },
+
+    // Spa Treatment Images
+    {
+      id: 9,
+      url: "/images/spa/spa-1.jpg", // Replace with your image filename
       alt: "Spa treatment",
       category: "Spa Treatments",
       title: "Relaxing Spa Session",
       description: "Peaceful facial and massage treatment",
     },
     {
-      id: 9,
-      url: "https://images.unsplash.com/photo-1554213352-5ffe6534af08?w=500&h=600&fit=crop",
-      alt: "Hair updo",
-      category: "Hair Styling",
-      title: "Elegant Updo",
-      description: "Sophisticated braided updo style",
+      id: 10,
+      url: "/images/spa/spa-2.jpg", // Replace with your image filename
+      alt: "Massage therapy",
+      category: "Spa Treatments",
+      title: "Therapeutic Massage",
+      description: "Stress relief and relaxation",
     },
-    // Add more images as needed...
+
+    // Add more of your custom images here...
+    // Template for adding new images:
+    // {
+    //   id: 11, // Next available ID
+    //   url: "/images/category/your-image-name.jpg",
+    //   alt: "Description for accessibility",
+    //   category: "Hair Styling", // Must match existing categories
+    //   title: "Your Image Title",
+    //   description: "Brief description of the service shown",
+    // },
   ];
 
   const filteredImages =
