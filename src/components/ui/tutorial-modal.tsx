@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "./dialog";
 import { Button } from "./button";
 import { Card, CardContent } from "./card";
@@ -69,7 +69,7 @@ const TutorialModal = () => {
               <div>├── makeup/ ← All makeup services</div>
               <div>├── bridal/ ← Wedding & engagement looks</div>
               <div>├── facial/ ← Skincare & facial treatments</div>
-              <div>└── spa/ ← Massage & wellness</div>
+              <div>��── spa/ ← Massage & wellness</div>
             </div>
           </div>
           <div className="bg-blue-50 p-4 rounded-lg">
@@ -190,8 +190,7 @@ const TutorialModal = () => {
       content: (
         <div className="space-y-4">
           <p className="text-gray-600">
-            Click "Add Image to Gallery" and your image will appear
-            immediately!
+            Click "Add Image to Gallery" and your image will appear immediately!
           </p>
           <div className="text-center">
             <Button className="bg-gradient-to-r from-rose-500 to-pink-600 text-white">
@@ -263,7 +262,9 @@ const TutorialModal = () => {
             <CardContent className="p-6">
               <div className="flex items-center gap-3 mb-4">
                 <div className="p-2 bg-rose-100 rounded-lg">
-                  <steps[currentStep].icon className="h-6 w-6 text-rose-600" />
+                  {React.createElement(steps[currentStep].icon, {
+                    className: "h-6 w-6 text-rose-600",
+                  })}
                 </div>
                 <h3 className="text-xl font-bold text-gray-900">
                   {steps[currentStep].title}
