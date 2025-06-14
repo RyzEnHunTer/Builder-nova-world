@@ -14,6 +14,15 @@ import { useContactInfo } from "@/contexts/ContactInfoContext";
 
 const Footer = () => {
   const { contactInfo } = useContactInfo();
+
+  const formatTime = (time: string) => {
+    const [hours, minutes] = time.split(':');
+    const hour = parseInt(hours);
+    const ampm = hour >= 12 ? 'PM' : 'AM';
+    const displayHour = hour % 12 || 12;
+    return `${displayHour}:${minutes} ${ampm}`;
+  };
+
   return (
     <footer className="bg-gradient-to-br from-rose-50 to-pink-50 border-t">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
@@ -147,8 +156,8 @@ const Footer = () => {
               <div className="flex items-start space-x-3">
                 <Clock className="h-4 w-4 text-rose-600 mt-0.5 flex-shrink-0" />
                 <div className="text-sm text-gray-600">
-                  <div>Mon - Sat: {contactInfo.hours.monday.open} - {contactInfo.hours.monday.close}</div>
-                  <div>Sunday: {contactInfo.hours.sunday.open} - {contactInfo.hours.sunday.close}</div>
+                  <div>Mon - Sat: {formatTime(contactInfo.hours.monday.open)} - {formatTime(contactInfo.hours.monday.close)}</div>
+                  <div>Sunday: {formatTime(contactInfo.hours.sunday.open)} - {formatTime(contactInfo.hours.sunday.close)}</div>
                 </div>
               </div>
           </div>
