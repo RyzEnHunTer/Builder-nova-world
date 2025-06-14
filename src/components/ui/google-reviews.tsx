@@ -49,6 +49,11 @@ const GoogleReviews = ({
     ? reviews
     : getLatestReviews(maxReviews);
 
+  const isUsingSampleReviews = reviews.some(
+    (review) =>
+      review.id.startsWith("sample_") || review.text.includes("[Sample Review"),
+  );
+
   if (loading) {
     return (
       <div className="flex items-center justify-center py-8">
