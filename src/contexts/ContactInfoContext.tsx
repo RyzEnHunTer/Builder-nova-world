@@ -55,6 +55,44 @@ export const useContactInfo = () => {
   return context;
 };
 
+// Convert Google Business Hours to ContactInfo hours format
+const convertGoogleHoursToContactHours = (googleHours: GoogleBusinessHours) => {
+  return {
+    monday: googleHours.monday,
+    tuesday: googleHours.tuesday,
+    wednesday: googleHours.wednesday,
+    thursday: googleHours.thursday,
+    friday: googleHours.friday,
+    saturday: googleHours.saturday,
+    sunday: googleHours.sunday,
+  };
+};
+
+// Merge Google Business Profile data with existing contact info
+const mergeGoogleBusinessData = (
+  contactInfo: ContactInfo,
+  googleData: BusinessProfileInfo,
+): ContactInfo => {
+  return {
+    ...contactInfo,
+    businessName: googleData.businessName || contactInfo.businessName,
+    email: googleData.contact.email || contactInfo.email,
+    phone: googleData.contact.phone || contactInfo.phone,
+    address: {
+      street: googleData.location.street || contactInfo.address.street,
+      city: googleData.location.city || contactInfo.address.city,
+      state: googleData.location.state || contactInfo.address.state,
+      zipCode: googleData.location.zipCode || contactInfo.address.zipCode,
+    },
+    hours: convertGoogleHoursToContactHours(googleData.businessHours),
+    lastGoogleSync: googleData.lastSyncTime,
+    // Keep existing social media and services as they're not from Google Business
+    socialMedia: contactInfo.socialMedia,
+    services: contactInfo.services,
+    syncWithGoogleBusiness: contactInfo.syncWithGoogleBusiness,
+  };
+};
+
 const defaultContactInfo: ContactInfo = {
   businessName: "Dream World Beauty Parlour",
   email: "dreamworldparlourmail@gmail.com",
