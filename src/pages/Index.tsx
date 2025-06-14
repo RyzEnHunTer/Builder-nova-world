@@ -323,9 +323,9 @@ const Index = () => {
                   <div>
                     <h3 className="font-semibold text-lg mb-1">Location</h3>
                     <p className="text-rose-100">
-                      123 Beauty Street, City Center
+                      Ramjanki mandir gali, Main Town
                       <br />
-                      Downtown, ST 12345
+                      Ghocho Toli, Simdega, Jharkhand 835223
                     </p>
                   </div>
                 </div>

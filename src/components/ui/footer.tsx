@@ -125,9 +125,9 @@ const Footer = () => {
               <div className="flex items-start space-x-3">
                 <MapPin className="h-4 w-4 text-rose-600 mt-0.5 flex-shrink-0" />
                 <span className="text-sm text-gray-600">
-                  123 Beauty Street, City Center
+                  Ramjanki mandir gali, Main Town
                   <br />
-                  Downtown, ST 12345
+                  Ghocho Toli, Simdega, Jharkhand 835223
                 </span>
               </div>
               <div className="flex items-center space-x-3">

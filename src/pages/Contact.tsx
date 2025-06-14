@@ -22,7 +22,10 @@ const Contact = () => {
     {
       icon: MapPin,
       title: "Location",
-      details: ["123 Beauty Street, City Center", "Downtown, ST 12345"],
+      details: [
+        "Ramjanki mandir gali, Main Town",
+        "Ghocho Toli, Simdega, Jharkhand 835223",
+      ],
       action: "Get Directions",
     },
     {
